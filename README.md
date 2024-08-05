@@ -15,13 +15,13 @@ instalado a dependência na maquina,após instalar, reniciar o PC.
 ```npm install -g nodmon```  
 
 
-Instalar a depndência como desenvolvedor para reniciar o servidor sempre
+Instalar as dependência como desenvolvedor para reniciar o servidor sempre
 que houver alterações no código fonte.  
 
 ``` npm install --save-dev nodemon```  
 
 
-**COMO RODAR O POJETO BAIXADO**  
+**COMO RODAR O POJETO DEPOIS DE CLONAR O REPOSITORIO**  
 Instalar todas as dependencias indicada pelo package.json  
 
 ```npm install```  
