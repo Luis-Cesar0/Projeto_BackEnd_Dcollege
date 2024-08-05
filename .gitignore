@@ -1,0 +1,2 @@
+# Ignorar arquivos gerados pelo Node.js
+node_modules/
