@@ -1,34 +1,34 @@
-**SEQUENCIA PARA CRIA O PROJETO**  
+**SEQUENCIA PARA CRIA O PROJETO**   
 
-```npm init -y```
+```npm init -y```  
 
 
 Gerencia as requisições,rotas e URLs,entre outra funcionalidades  
 
-```npm install express```
+```npm install express```  
 
 
 Instalar a dependência de forma global "-g" significa globlmente. 
 Executar o comando através do prompt(modo administrador) de comando, executar somente se nunca
 instalado a dependência na maquina,após instalar, reniciar o PC.  
 
-```npm install -g nodmon```
+```npm install -g nodmon```  
 
 
 Instalar a depndência como desenvolvedor para reniciar o servidor sempre
 que houver alterações no código fonte.  
 
-``` npm install --save-dev nodemon```
+``` npm install --save-dev nodemon```  
 
 
-**COMO RODAR O POJETO BAIXADO**
+**COMO RODAR O POJETO BAIXADO**  
 Instalar todas as dependencias indicada pelo package.json  
 
-```npm install```
+```npm install```  
 
 Rodar o projeto  
 
-``` npm run dev```
+``` npm run dev```  
 
 
 **IMPORTAÇÕES E EXPORTAÇÕES DO PROJETO**  
