@@ -1,21 +1,21 @@
 const resposta= {
-    success: (res ,data)=> {
-        res.status(200).json({status: 'sucess',data})
+    success: (res)=> {
+        res.status(200).json({status: '200',mensagem: 'requisição foi bem sucedida'})
     },
-    created: (res, data) => {
-        res.status(201).json({status: 'created',data})
+    created: (res) => {
+        res.status(201).json({status: '201',mensagem: 'novo recurso foi criado'})
     },
-    noContent:(res,data)=>{
-        res.status(204).json({status: 'no content',data})
+    noContent:(res)=>{
+        res.status(204).json({status: '204',mensagem: 'API se recusa a retornar qualquer corpo de mensagem no response'})
     },
-    badRequest: (res,data)=>{
-        res.status(400).json({status: 'bad request',data})
+    badRequest: (res)=>{
+        res.status(400).json({status: '400',mensagem:'erro do cliente'})
     },
-    unauthorized: (res,data)=>{
-        res.status(401).json({status: 'unauthorized',data})
+    unauthorized: (res)=>{
+        res.status(401).json({status: '401',mensagem:' não possui credenciais de autenticação válidas'})
     },
-    notFound: (res,data)=>{
-        res.status(404).json({status: 'not found',data})
+    notFound: (res)=>{
+        res.status(404).json({status: '404',mensagem:'servidor não conseguiu encontrar o recurso solicitado'})
     }
 
     
