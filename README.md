@@ -43,9 +43,9 @@ que houver alterações no código fonte.
 
 ``` npm install --save-dev nodemon```  
 
-
+___
 **COMO RODAR O POJETO DEPOIS DE CLONAR O REPOSITORIO**  
-Instalar todas as dependencias indicada pelo package.json  
+Instalar todas as dependencias indicada pelo package.json
 
 ```npm install```  
 
@@ -53,7 +53,7 @@ Rodar o projeto
 
 ``` npm run dev```  
 
-
+___
 **IMPORTAÇÕES E EXPORTAÇÕES DO PROJETO**  
 importação  
 
