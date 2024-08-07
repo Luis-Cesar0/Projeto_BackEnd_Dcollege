@@ -18,6 +18,10 @@ realiza o merge da master com sua branch - ```git merge main```
 
 ```git checkout <nome-do-seu-branch-local>```
 
+*Faz um push e cria uma nova branch no github*  
+
+```git push --set-upstream origin funcao_update```
+
 
 ____
 
