@@ -1,4 +1,6 @@
-export default function upadate(tabela,id,dados){
+const express= require('express');
+
+function upadate(tabela,id,dados){
     tabela.update(
 		dados, 
 		{ where: id }
@@ -16,3 +18,5 @@ export default function upadate(tabela,id,dados){
   });
 
 }
+
+module.exports = upadate
