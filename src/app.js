@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const usuarioRoutes = require('./func/getUser')
+const usuarioRoutes = require('./controllers/getUser')
 
 app.use(express.json())
 
