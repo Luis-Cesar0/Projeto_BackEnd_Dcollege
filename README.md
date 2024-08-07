@@ -61,9 +61,9 @@ ___
 **IMPORTAÇÕES E EXPORTAÇÕES DO PROJETO**  
 importação  
 
-```import express from 'express'```
+```const express = require('express')```
 
 
 exportação  
 
-```export default app```
+```module.exports = express;```
