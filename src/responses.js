@@ -4,8 +4,8 @@ const resposta= {
     success: (res)=> {
         res.status(200).json({status: '200',mensagem: 'requisição foi bem sucedida'})
     },
-    created: (res) => {
-        res.status(201).json({status: '201',mensagem: 'novo recurso foi criado'})
+    created: (res,novoRecurso) => {
+        res.status(201).json({status: '201',mensagem: 'novo recurso foi criado'}).json(novoRecurso)
     },
     noContent:(res)=>{
         res.status(204).json({status: '204',mensagem: 'API se recusa a retornar qualquer corpo de mensagem no response'})

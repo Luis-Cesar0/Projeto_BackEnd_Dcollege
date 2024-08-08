@@ -1,10 +1,20 @@
 const express=require('express');
-const userservice = require('../services/serviceUsario')
+const {getUserId,postUser,putUser} = require('../services/serviceUsario')
 
 
 
-const getUserId =(req,res) =>{
-    userservice(req,res)
+const controlergetUserId =(req,res) =>{
+    getUserId(req,res)
+}
+const controllerPostUser =(req,res) =>{
+    postUser(req,res)
+}
+const controllerPutUser =(req,res) =>{
+    postUser(req,res)
 }
 
-module.exports= getUserId
+module.exports= {
+    controlergetUserId,
+    controllerPostUser,
+    controllerPutUser
+}
