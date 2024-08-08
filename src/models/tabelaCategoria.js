@@ -1,8 +1,8 @@
-import sequelize from '../config/conexao.js'
-import { DataTypes } from('sequelize');
+const sequelize =require('../config/conexao')
+const { DataTypes } = require('sequelize')
 
 // Definindo o modelo Usuario
-const Categoria = sequelize.define('Categoria', {
+const categoria = sequelize.define('categorias', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -18,6 +18,17 @@ const Categoria = sequelize.define('Categoria', {
     },
     use_in_menu: {
       type: DataTypes.BOOLEAN
+    },
+    createdAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      onUpdate: DataTypes.NOW
     }
   });
   
@@ -30,4 +41,4 @@ const Categoria = sequelize.define('Categoria', {
       console.error('Erro ao sincronizar tabelas:', err);
     });
 
-export default Categoria
+    module.exports= categoria
