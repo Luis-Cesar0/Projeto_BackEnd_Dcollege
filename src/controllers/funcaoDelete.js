@@ -1,4 +1,6 @@
-export default function deletar(tabela, id) {
+const express = require('express');
+
+function deletar(tabela, id) {
     tabela.destroy({
       where: {
         id: id
@@ -12,3 +14,4 @@ export default function deletar(tabela, id) {
     });
   }
   
+  module.exports = deletar
