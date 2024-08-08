@@ -27,16 +27,18 @@ const getCategoriaId = async (req, res) => {
 //post
 
 const postCategoria = async (req, res) => {
-    const { categoria } = req.body;
+    const { name, slug } = req.body.categoria; 
     try {
-        const categoria = await tabelaCategoria.create({
-            categoria
+        const novaCategoria = await tabelaCategoria.create({
+            name,
+            slug
         });
-        res.json(categoria);
+        res.json(novaCategoria);
     } catch (error) {
         resposta.badRequest(res, error);
     }
 }
+
 
 //put
 
@@ -69,7 +71,7 @@ const deleteCategoria = async (req, res) => {
                     id
                 }
             });
-            res.sendStatus(204);
+            resposta.success(res, 'Categoria deletada com sucesso');
         }
     } catch (error) {
         resposta.badRequest(res, error);
