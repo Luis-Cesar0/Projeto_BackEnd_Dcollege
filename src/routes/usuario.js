@@ -1,11 +1,14 @@
 
-const getUser= require('../func/getUser');
+const getUser= require('../controllers/contollerUsuarios');
 const express=require('express');
-const router = express.Router()
+const routerUser = express.Router()
 
  
-router.get('/',getUser)
+routerUser.get('/:id',getUser)
+// routerUser.post('/',postUser)
+// routerUser.put('/:id',putUser)
+// routerUser.delete('/:id',deleteUser)
 
-module.exports= router
+module.exports= routerUser
 
 
