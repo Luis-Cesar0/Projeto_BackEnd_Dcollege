@@ -57,9 +57,29 @@ const putCategoria = async (req, res) => {
     }
 }
 
+const deleteCategoria = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const categoria = await tabelaCategoria.findByPk(id);
+        if (!categoria) {
+            resposta.notFound(res, 'Categoria não encontrada');
+        } else {
+            await tabelaCategoria.destroy({
+                where: {
+                    id
+                }
+            });
+            res.sendStatus(204);
+        }
+    } catch (error) {
+        resposta.badRequest(res, error);
+    }
+}
+
 module.exports = {
     getCategorias,
     getCategoriaId,
     postCategoria,
-    putCategoria
+    putCategoria,
+    deleteCategoria
 }

@@ -18,6 +18,10 @@ const putCategoria =(req,res) =>{
     categoriaService.putCategoria(req,res,categorias)
 }
 
+const deleteCategoria = (req,res) =>{
+    categoriaService.deleteCategoria(req,res,categorias)
+}
+
 
 
 
@@ -27,5 +31,6 @@ module.exports = {
     getCategorias,
     getCategoriaId,
     postCategoria,
-    putCategoria
+    putCategoria,
+    deleteCategoria
 }
