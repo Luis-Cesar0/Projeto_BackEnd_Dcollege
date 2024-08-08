@@ -5,7 +5,7 @@ const tabelaProdutos = require('../models/tabelaProdutos')
 
 
 const getUserId =(req,res) =>{
-    userservice(req,res,tabelaUsuarios)
+    userservice(req,res)
 }
 
 module.exports= getUserId

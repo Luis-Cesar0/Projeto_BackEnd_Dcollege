@@ -8,8 +8,8 @@ const produtos = sequelize.define('produtos', {
       primaryKey: true
     },
     enabled: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      type: DataTypes.TINYINT,
+      defaultValue: 0,
     },
     name: {
       type: DataTypes.STRING,
@@ -20,8 +20,8 @@ const produtos = sequelize.define('produtos', {
       allowNull: false,
     },
     use_in_menu: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      type: DataTypes.TINYINT,
+      defaultValue: 0,
     },
     stock:{
         type: DataTypes.INTEGER,
