@@ -1,8 +1,8 @@
-import sequelize from '../config/conexao.js'
-import { DataTypes } from('sequelize');
+const sequelize =require('../config/conexao')
+const { DataTypes } = require('sequelize')
 
 // Definindo o modelo Usuario
-const Usuario = sequelize.define('Usuario', {
+const usuario = sequelize.define('usuarios', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -23,6 +23,17 @@ const Usuario = sequelize.define('Usuario', {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    createdAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      onUpdate: DataTypes.NOW
     }
   });
   
@@ -35,4 +46,4 @@ const Usuario = sequelize.define('Usuario', {
       console.error('Erro ao sincronizar tabelas:', err);
     });
 
-export default Usuario
+module.exports = usuario

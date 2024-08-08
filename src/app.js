@@ -1,17 +1,17 @@
-import express from 'express'
-import objTeste from './objTeste.js'
-import responses from './responses.js'
-const app = express()
+const express = require('express');
+const app = express();
+const usuarioRoutes = require('./routes/usuario')
 
 app.use(express.json())
 
-//rotas
 
 // rota padrão para testar as configurações 
 app.get('/',(req,res) => {
-  res.send('deu certo')
-    
+  res.send('teste')
 })
 
+app.use('/usuarios', usuarioRoutes)
+
+
 // exportatnado a aplicação Express
-export default app
+module.exports = app;

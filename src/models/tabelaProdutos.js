@@ -1,8 +1,7 @@
-import sequelize from '../config/conexao.js'
-import { DataTypes } from('sequelize');
-
+const sequelize =require('../config/conexao')
+const { DataTypes } = require('sequelize')
 // Definindo o modelo Usuario
-const Produtos = sequelize.define('Produtos', {
+const produtos = sequelize.define('produtos', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -38,6 +37,17 @@ const Produtos = sequelize.define('Produtos', {
     price_with_discount:{
         type: DataTypes.FLOAT,
         allowNull: false
+    },
+    createdAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      onUpdate: DataTypes.NOW
     }
   });
   
@@ -50,4 +60,4 @@ const Produtos = sequelize.define('Produtos', {
       console.error('Erro ao sincronizar tabelas:', err);
     });
 
-export default Produtos
+    module.exports= produtos

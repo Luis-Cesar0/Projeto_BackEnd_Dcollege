@@ -18,10 +18,10 @@ project-root/
 
 funções das rotas 
 ├── obter uma lista com as informações
-├── obter a informação usando o ID
-├── cadastra informações
-├── atualizar informações
-├── deletar informações
+├── obter a informação usando o ID- feito 
+├── cadastra informações 
+├── atualizar informações- feito
+├── deletar informações - feito
 
 Tabelas do banco de dados
 ├── Criar a tabela de usuários

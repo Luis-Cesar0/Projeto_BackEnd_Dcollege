@@ -1,9 +1,10 @@
-import { Sequelize } from 'sequelize';
+const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('railway', 'root', 'CIREobKtrYwudjCLeADoBehkUikHExdx', 
 {
   host: 'monorail.proxy.rlwy.net',
-  dialect: 'mysql'
+  dialect: 'mysql',
+  port: 11097
 }
 );
 
@@ -15,4 +16,4 @@ sequelize.authenticate()
     console.error('Não foi possível conectar ao banco de dados:', err);
   });
 
-export default sequelize
+module.exports= sequelize
