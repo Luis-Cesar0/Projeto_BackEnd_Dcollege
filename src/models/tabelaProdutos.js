@@ -37,6 +37,17 @@ const produtos = sequelize.define('produtos', {
     price_with_discount:{
         type: DataTypes.FLOAT,
         allowNull: false
+    },
+    createdAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      onUpdate: DataTypes.NOW
     }
   });
   

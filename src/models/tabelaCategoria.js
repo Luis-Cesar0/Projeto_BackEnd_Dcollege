@@ -18,6 +18,17 @@ const categoria = sequelize.define('categorias', {
     },
     use_in_menu: {
       type: DataTypes.BOOLEAN
+    },
+    createdAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      onUpdate: DataTypes.NOW
     }
   });
   
