@@ -1,11 +1,12 @@
 
-const getUser= require('../controllers/contollerUsuarios');
+const usuariosControllers= require('../controllers/contollerUsuarios');
 const express=require('express');
 const routerUser = express.Router()
 
+
  
-routerUser.get('/:id',getUser)
-// routerUser.post('/',postUser)
+routerUser.get('/:id',usuariosControllers.getUser)
+routerUser.post('/',usuariosControllers.postUser)
 // routerUser.put('/:id',putUser)
 // routerUser.delete('/:id',deleteUser)
 
