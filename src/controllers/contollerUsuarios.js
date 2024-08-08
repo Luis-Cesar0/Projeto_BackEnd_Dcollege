@@ -10,7 +10,7 @@ const controllerPostUser =(req,res) =>{
     postUser(req,res)
 }
 const controllerPutUser =(req,res) =>{
-    postUser(req,res)
+    putUser(req,res)
 }
 
 module.exports= {

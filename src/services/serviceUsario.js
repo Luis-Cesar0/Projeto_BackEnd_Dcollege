@@ -1,3 +1,4 @@
+const { json } = require("sequelize");
 const tabelaUsuarios= require("../models/tabelaUsuarios")
 const resposta = require('../responses')
 const  bcrypt = require('bcrypt');
@@ -35,8 +36,16 @@ const postUser = async (req,res)=>{
 }
 const putUser = async(req,res)=>{
     const id = req.params.id
+    const {firstname,surname,email} = req.body
     try {
-        
+        const AttUsuario = await tabelaUsuarios.update({
+            firstname: firstname ,
+            surname: surname,
+            email: email
+        },
+        {where:{id:id}}
+    )
+    res.json(AttUsuario)
     } catch (error) {
         
     }
