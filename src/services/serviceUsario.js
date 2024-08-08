@@ -2,6 +2,8 @@
 const tabelaUsuarios= require("../models/tabelaUsuarios")
 const resposta = require('../responses')
 
+
+
 const getUserId = async (req,res)=>{
     const id = req.params.id
     try {
