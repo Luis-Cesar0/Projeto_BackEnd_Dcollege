@@ -6,13 +6,12 @@ const resposta = require('../responses');
 const getCategorias = async (req, res) => {
     try {
         const categorias = await tabelaCategoria.findAll();
-        if(categorias){
-            resposta.success(res,categorias)
-        }else{
-            resposta.notFound(res,'Categorias não encotrada')
-        }
+        if(!categorias) return resposta.badRequest(res,'campo vazio')
+
+        resposta.success(res,'Categorias encontradas',categorias)
+            
     } catch (error) {
-        res.json(error);
+        resposta.InternalServerError(res,'Ocorreu um erro ao procura as categorias')
     }
 }
 
@@ -22,13 +21,12 @@ const getCategoriaId = async (req, res) => {
     const id = req.params.id;
     try {
         const categoria = await tabelaCategoria.findByPk(id);
-        if(categoria){
-            resposta.success(res,categoria)
-        }else{
-            resposta.notFound(res,'Categorias não encotrada')
-        }
+        if(!categoria) return resposta.notFound(res,'Categorias não encotrada')
+
+        resposta.success(res,'Categoria encontrada',categoria)
+            
     } catch (error) {
-        res.json(error);
+        resposta.InternalServerError(res,'Ocorreu um erro ao procura a categoria')
     }
 }
 
@@ -36,6 +34,7 @@ const getCategoriaId = async (req, res) => {
 
 const postCategoria = async (req, res) => {
     const { name,slug,use_in_menu } = req.body;
+    if(!name || !slug|| !use_in_menu) return resposta.badRequest(res,'Categorias não encotrada')
     try {
         const categoria = await tabelaCategoria.create({
             name: name,
@@ -43,13 +42,11 @@ const postCategoria = async (req, res) => {
             use_in_menu: use_in_menu,
 
         });
-        if(categoria){
-            resposta.created(res,categoria)
-        }else{
-            resposta.badRequest(res,'Categorias não encotrada')
-        }
+
+        resposta.success(res,'Categoria cadastrada com sucesso',categoria)
+            
     } catch (error) {
-        res.json(error);
+        resposta.InternalServerError(res,'Ocorreu um erro na criação de uma nova categoria')
     }
 }
 
@@ -69,14 +66,12 @@ const putCategoria = async (req, res) => {
                 id:id
             }
         });
-        if(AttCategoria){
-            resposta.noContent(res)
-        }else{
+        if(AttCategoria) return resposta.notFound(res,'Categoria não encontrada')
+        resposta.noContent(res)
             //falta o token para o 401
-            resposta.notFound(res,AttUsuario)
-        }
+
     } catch (error) {
-        res.json(error) 
+        resposta.InternalServerError(res,'Ocorreu um erro na atuaçozação da categoria')
     }
 }
 
@@ -88,14 +83,13 @@ const deleteCategoria = async (req, res) => {
                     id:id
                 }
             });
-            if(categoriaDelet){
-                resposta.noContent(res)
-            }else{
+            if(categoriaDelet) return resposta.notFound(res,`categoria com id= ${id} não foi encotrado`)
+            resposta.noContent(res)
+ 
                 //falta 0 token para o 401
-                resposta.notFound(res,`categoria com id= ${id} não foi encotrado`)
-            }
+
     } catch (error) {
-        res.json(error) 
+        resposta.InternalServerError(res,'Ocorreu um erro na exclusão da categoria categoria')
     }
 }
 

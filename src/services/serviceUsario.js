@@ -4,25 +4,25 @@ const respostas = require('../responses')
 const  bcrypt = require('bcrypt');
 
 
-
+// faz um get no usuario pelo ID
 async function getUserId(req,res){
     const id = req.params.id
     try {
         const usuario = await tabelaUsuarios.findByPk(id)
-        if(usuario){
-            respostas.success(res,usuario)
-        }else{
-            respostas.notFound(res,'Usario não encotrado')
-        }
-    }catch(error){
-       res.json(error)
-    }
+        if(!usuario) return respostas.notFound(res,'Usario não encotrado')
+
+        respostas.success(res,'Usuario encontrado',usuario)
+
+    }catch(erro){
+       respostas.InternalServerError(res,'Ocorreu um erro ao procura um usuario')
+    }   
 }
 
+// cria um novo usuario
 const postUser = async (req,res)=>{
     const {firstname,surname,email,password} = req.body
     if (!firstname || !surname || !email || !password) {
-        return respostas.badRequest(res, 'Todos os campos são obrigatórios');
+        return respostas.badRequest(res, 'Os campos estão vazio');
       }
     try {
         const salt =await bcrypt.genSalt(10)
@@ -37,11 +37,13 @@ const postUser = async (req,res)=>{
             if(!novoUsuario){
                  return respostas.badRequest(res, 'Erro ao criar usuário')
             }
-            respostas.created(res,novoUsuario)
+            respostas.created(res,'usuario criando com sucesso',novoUsuario)
         }catch(error){
-           res.json(error)
+            respostas.InternalServerError(res,'Ocorreu um erro na criação do usuario')
         }
 }
+
+// atualização do usuario
 const putUser = async(req,res)=>{ 
     const id = req.params.id
     const {firstname,surname,email} = req.body
@@ -56,29 +58,28 @@ const putUser = async(req,res)=>{
         },
         {where:{id:id}}
     )
-    if(AttUsuario){
-        respostas.noContent(res)
-    }else{
+    if(!AttUsuario)  return respostas.notFound(res,'Usuario não encontrado')
+    respostas.noContent(res)
+
         //falta o token para o 401
-        respostas.notFound(res,AttUsuario)
-    }
+
     
     }catch(error){
-        res.json(error) 
+        respostas.InternalServerError(res,'Ocorreu um na atulização das informações do usuario')
     }
 }
+
+// remoção do usuario
 const deleteUser = async (req,res)=>{
         const id = req.params.id
         try {
             const usuario = await tabelaUsuarios.destroy({where:{id:id}})
-            if(usuario){
-                respostas.noContent(res)
-            }else{
-                //falta 0 token para o 401
-                respostas.notFound(res,`Usuario com id= ${id} não foi encotrado`)
-            }
+            if(!usuario) return respostas.notFound(res,`Usuario com id= ${id} não foi encotrado`)
+
+            respostas.noContent(res)
+
         }catch(error){
-           res.json(error) 
+            respostas.InternalServerError(res,'Ocorreu um errona remoção do usuario usuario') 
         }
 }
 
@@ -89,5 +90,3 @@ module.exports = {
     putUser,
     deleteUser
 }
-
-;
