@@ -1,5 +1,5 @@
 const express=require('express');
-const {getUserId,postUser,putUser} = require('../services/serviceUsario')
+const {getUserId,postUser,putUser,deleteUser} = require('../services/serviceUsario')
 
 
 
@@ -12,9 +12,13 @@ const controllerPostUser =(req,res) =>{
 const controllerPutUser =(req,res) =>{
     putUser(req,res)
 }
+const controlergetDeleteUser =(req,res)=>{
+    deleteUser(req,res)
+}
 
 module.exports= {
     controlergetUserId,
     controllerPostUser,
-    controllerPutUser
+    controllerPutUser,
+    controlergetDeleteUser
 }

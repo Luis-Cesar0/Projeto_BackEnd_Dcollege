@@ -1,6 +1,6 @@
 const { json } = require("sequelize");
 const tabelaUsuarios= require("../models/tabelaUsuarios")
-const resposta = require('../responses')
+const respostas = require('../responses')
 const  bcrypt = require('bcrypt');
 
 
@@ -9,15 +9,21 @@ async function getUserId(req,res){
     const id = req.params.id
     try {
         const usuario = await tabelaUsuarios.findByPk(id)
-        res.json(usuario) 
-        
+        if(usuario){
+            respostas.success(res,usuario)
+        }else{
+            respostas.notFound(res,usuario)
+        }
     }catch(error){
-        resposta.badRequest(res,error)
+       res.json(error)
     }
 }
 
 const postUser = async (req,res)=>{
     const {firstname,surname,email,password} = req.body
+    if (!firstname || !surname || !email || !password) {
+        return respostas.badRequest(res, 'Todos os campos são obrigatórios');
+      }
     try {
         const salt =await bcrypt.genSalt(10)
         const hashedSenha = await bcrypt.hash(password,salt)
@@ -28,15 +34,20 @@ const postUser = async (req,res)=>{
             email: email,
             password: hashedSenha})
 
-        res.json(novoUsuario)
-        
-    } catch (error) {
-        
-    }
+            if(!novoUsuario){
+                 return respostas.badRequest(res, 'Erro ao criar usuário')
+            }
+            respostas.created(res,novoUsuario)
+        }catch(error){
+           res.json(error)
+        }
 }
-const putUser = async(req,res)=>{
+const putUser = async(req,res)=>{ 
     const id = req.params.id
     const {firstname,surname,email} = req.body
+    if (!firstname && !surname && !email) {
+        return respostas.badRequest(res, 'Todos os campos são obrigatórios');
+      }
     try {
         const AttUsuario = await tabelaUsuarios.update({
             firstname: firstname ,
@@ -45,17 +56,38 @@ const putUser = async(req,res)=>{
         },
         {where:{id:id}}
     )
-    res.json(AttUsuario)
-    } catch (error) {
-        
+    if(AttUsuario){
+        respostas.noContent(res)
+    }else{
+        //falta 0 token para o 401
+        respostas.notFound(res,AttUsuario)
     }
+    respostas.success(res,usuario)
+}catch(error){
+   res.json(error) 
+}
+}
+const deleteUser = async (req,res)=>{
+        const id = req.params.id
+        try {
+            const usuario = await tabelaUsuarios.destroy({where:{id:id}})
+            if(usuario){
+                respostas.noContent(res)
+            }else{
+                //falta 0 token para o 401
+                respostas.notFound(res,usuario)
+            }
+        }catch(error){
+           res.json(error) 
+        }
 }
 
 
 module.exports = {
     getUserId,
     postUser,
-    putUser
+    putUser,
+    deleteUser
 }
 
 ;
