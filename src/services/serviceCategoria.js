@@ -2,6 +2,7 @@ const tabelaCategoria = require('../models/tabelaCategoria');
 const resposta = require('../responses');
 
 
+
 const getCategorias = async (req, res) => {
     try {
         const { limit = 12, page = 1, fields, use_in_menu } = req.query;
@@ -41,13 +42,12 @@ const getCategoriaId = async (req, res) => {
     const id = req.params.id;
     try {
         const categoria = await tabelaCategoria.findByPk(id);
-        if(categoria){
-            resposta.success(res,categoria)
-        }else{
-            resposta.notFound(res,`Categoria com id=${id} não foi encontrada`)
-        }
+        if(!categoria) return resposta.notFound(res,'Categorias não encotrada')
+
+        resposta.success(res,'Categoria encontrada',categoria)
+            
     } catch (error) {
-        res.json(error);
+        resposta.InternalServerError(res,'Ocorreu um erro ao procura a categoria')
     }
 }
 const postCategoria = async (req, res) => {
@@ -88,27 +88,22 @@ const putCategoria = async (req, res) => {
         }
 
     try {
-        const AttCategoria = await tabelaCategoria.update(
-            {
-                name: name,
-                slug: slug,
-                use_in_menu: use_in_menu,
-            },
-            {
-                where: {
-                    id: id
-                }
+        const AttCategoria = await tabelaCategoria.update({
+            name: name,
+            slug: slug,
+            use_in_menu: use_in_menu,
+            
+        }, {
+            where: {
+                id:id
             }
-        );
-        if (AttCategoria[0] === 1) {
-            resposta.noContent(res);
-        } else if (AttCategoria[0] === 0) {
-            resposta.notFound(res, `Categoria com id=${id} não foi encontrada`);
-        } else {
-            resposta.badRequest(res, 'Erro ao atualizar categoria');
-        }
+        });
+        if(AttCategoria) return resposta.notFound(res,'Categoria não encontrada')
+        resposta.noContent(res)
+            //falta o token para o 401
+
     } catch (error) {
-        res.json(error);
+        resposta.InternalServerError(res,'Ocorreu um erro na atuaçozação da categoria')
     }
 }
 
@@ -121,18 +116,18 @@ const deleteCategoria = async (req, res) => {
     }
 
     try {
-        const categoriaDelet = await tabelaCategoria.destroy({
-            where: {
-                id: id
-            }
-        });
-        if (categoriaDelet) {
-            resposta.noContent(res);
-        } else {
-            resposta.notFound(res, `Categoria com id=${id} não foi encontrada`);
-        }
+            const categoriaDelet = await tabelaCategoria.destroy({
+                where: {
+                    id:id
+                }
+            });
+            if(categoriaDelet) return resposta.notFound(res,`categoria com id= ${id} não foi encotrado`)
+            resposta.noContent(res)
+ 
+                //falta 0 token para o 401
+
     } catch (error) {
-        res.json(error);
+        resposta.InternalServerError(res,'Ocorreu um erro na exclusão da categoria categoria')
     }
 }
 
