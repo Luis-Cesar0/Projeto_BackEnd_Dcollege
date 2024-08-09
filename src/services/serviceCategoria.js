@@ -1,7 +1,6 @@
 const tabelaCategoria = require('../models/tabelaCategoria');
 const resposta = require('../responses');
 
-// Criar endpoint para obter uma lista de categorias
 
 const getCategorias = async (req, res) => {
     try {
@@ -14,8 +13,6 @@ const getCategorias = async (req, res) => {
         resposta.InternalServerError(res,'Ocorreu um erro ao procura as categorias')
     }
 }
-
-//get por id 
 
 const getCategoriaId = async (req, res) => {
     const id = req.params.id;
@@ -36,11 +33,10 @@ const postCategoria = async (req, res) => {
     const { name,slug,use_in_menu } = req.body;
     if(!name || !slug|| !use_in_menu) return resposta.badRequest(res,'Categorias não encotrada')
     try {
-        const categoria = await tabelaCategoria.create({
+        const novaCategoria = await tabelaCategoria.create({
             name: name,
             slug: slug,
             use_in_menu: use_in_menu,
-
         });
 
         resposta.success(res,'Categoria cadastrada com sucesso',categoria)
@@ -54,7 +50,9 @@ const postCategoria = async (req, res) => {
 
 const putCategoria = async (req, res) => {
     const id = req.params.id;
-    const { name,slug,use_in_menu } = req.body;
+    const { name, slug, use_in_menu } = req.body;
+        //FALTA O TOKEN PARA O 401
+
     try {
         const AttCategoria = await tabelaCategoria.update({
             name: name,
@@ -77,6 +75,7 @@ const putCategoria = async (req, res) => {
 
 const deleteCategoria = async (req, res) => {
     const id = req.params.id;
+    //FALTA O TOKEN PARA O 401
     try {
             const categoriaDelet = await tabelaCategoria.destroy({
                 where: {
