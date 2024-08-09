@@ -6,9 +6,13 @@ const resposta = require('../responses');
 const getCategorias = async (req, res) => {
     try {
         const categorias = await tabelaCategoria.findAll();
-        res.json(categorias);
+        if(categorias){
+            resposta.success(res,categorias)
+        }else{
+            resposta.notFound(res,'Categorias não encotrada')
+        }
     } catch (error) {
-        resposta.badRequest(res, error);
+        res.json(error);
     }
 }
 
@@ -18,23 +22,34 @@ const getCategoriaId = async (req, res) => {
     const id = req.params.id;
     try {
         const categoria = await tabelaCategoria.findByPk(id);
-        res.json(categoria);
+        if(categoria){
+            resposta.success(res,categoria)
+        }else{
+            resposta.notFound(res,'Categorias não encotrada')
+        }
     } catch (error) {
-        resposta.badRequest(res, error);
+        res.json(error);
     }
 }
 
 //post
 
 const postCategoria = async (req, res) => {
-    const { categoria } = req.body;
+    const { name,slug,use_in_menu } = req.body;
     try {
         const categoria = await tabelaCategoria.create({
-            categoria
+            name: name,
+            slug: slug,
+            use_in_menu: use_in_menu,
+
         });
-        res.json(categoria);
+        if(categoria){
+            resposta.created(res,categoria)
+        }else{
+            resposta.badRequest(res,'Categorias não encotrada')
+        }
     } catch (error) {
-        resposta.badRequest(res, error);
+        res.json(error);
     }
 }
 
@@ -42,37 +57,45 @@ const postCategoria = async (req, res) => {
 
 const putCategoria = async (req, res) => {
     const id = req.params.id;
-    const { categoria } = req.body;
+    const { name,slug,use_in_menu } = req.body;
     try {
-        await tabelaCategoria.update({
-            categoria
+        const AttCategoria = await tabelaCategoria.update({
+            name: name,
+            slug: slug,
+            use_in_menu: use_in_menu,
+            
         }, {
             where: {
-                id
+                id:id
             }
         });
-        res.json({ message: `Categoria ${categoria} atualizada com sucesso` });
+        if(AttCategoria){
+            resposta.noContent(res)
+        }else{
+            //falta o token para o 401
+            resposta.notFound(res,AttUsuario)
+        }
     } catch (error) {
-        resposta.badRequest(res, error);
+        res.json(error) 
     }
 }
 
 const deleteCategoria = async (req, res) => {
     const id = req.params.id;
     try {
-        const categoria = await tabelaCategoria.findByPk(id);
-        if (!categoria) {
-            resposta.notFound(res, 'Categoria não encontrada');
-        } else {
-            await tabelaCategoria.destroy({
+            const categoriaDelet = await tabelaCategoria.destroy({
                 where: {
-                    id
+                    id:id
                 }
             });
-            res.sendStatus(204);
-        }
+            if(categoriaDelet){
+                resposta.noContent(res)
+            }else{
+                //falta 0 token para o 401
+                resposta.notFound(res,`categoria com id= ${id} não foi encotrado`)
+            }
     } catch (error) {
-        resposta.badRequest(res, error);
+        res.json(error) 
     }
 }
 

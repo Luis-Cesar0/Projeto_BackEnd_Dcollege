@@ -1,4 +1,4 @@
-const { json } = require("sequelize");
+
 const tabelaUsuarios= require("../models/tabelaUsuarios")
 const respostas = require('../responses')
 const  bcrypt = require('bcrypt');
@@ -12,7 +12,7 @@ async function getUserId(req,res){
         if(usuario){
             respostas.success(res,usuario)
         }else{
-            respostas.notFound(res,usuario)
+            respostas.notFound(res,'Usario não encotrado')
         }
     }catch(error){
        res.json(error)
@@ -59,13 +59,13 @@ const putUser = async(req,res)=>{
     if(AttUsuario){
         respostas.noContent(res)
     }else{
-        //falta 0 token para o 401
+        //falta o token para o 401
         respostas.notFound(res,AttUsuario)
     }
-    respostas.success(res,usuario)
-}catch(error){
-   res.json(error) 
-}
+    
+    }catch(error){
+        res.json(error) 
+    }
 }
 const deleteUser = async (req,res)=>{
         const id = req.params.id
@@ -75,7 +75,7 @@ const deleteUser = async (req,res)=>{
                 respostas.noContent(res)
             }else{
                 //falta 0 token para o 401
-                respostas.notFound(res,usuario)
+                respostas.notFound(res,`Usuario com id= ${id} não foi encotrado`)
             }
         }catch(error){
            res.json(error) 

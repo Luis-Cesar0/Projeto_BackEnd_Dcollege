@@ -1,4 +1,3 @@
-const express=require('express');
 const {getUserId,postUser,putUser,deleteUser} = require('../services/serviceUsario')
 
 
