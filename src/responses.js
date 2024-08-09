@@ -1,28 +1,37 @@
-const { Model } = require("sequelize")
 
-const resposta= {
-    success: (res)=> {
-        res.status(200).json({status: '200',mensagem: 'requisição foi bem sucedida'})
+const respostas = {
+    success: (res,detalhes) => {
+      res.status(200).json({ status: '200',
+                             mensagem: 'requisição foi bem sucedida', 
+                             detalhes: detalhes  });
     },
-    created: (res) => {
-        res.status(201).json({status: '201',mensagem: 'novo recurso foi criado'})
+    created: (res, detalhes) => {
+      res.status(201).json({ status: '201', 
+                             mensagem: 'novo recurso foi criado', 
+                             detalhes: detalhes });
     },
-    noContent:(res)=>{
-        res.status(204).json({status: '204',mensagem: 'API se recusa a retornar qualquer corpo de mensagem no response'})
+    noContent: (res) => {
+      res.status(204).json({ status: '204'});
     },
-    badRequest: (res ,err)=>{
-        res.status(400).json({status: '400',mensagem:'erro do cliente', erro: err})
+    badRequest: (res, detalhes) => {
+      res.status(400).json({ status: '400', 
+                             mensagem: 'erro do cliente',
+                             detalhes: detalhes
+                              });
     },
-    unauthorized: (res, err)=>{
-        res.status(401).json({status: '401',mensagem:' não possui credenciais de autenticação válidas',erro: err})
+    unauthorized: (res, detalhes) => {
+      res.status(401).json({ status: '401', 
+                             mensagem: 'não possui credenciais de autenticação válidas', 
+                             detalhes: detalhes });
     },
-    notFound: (res,err)=>{
-        res.status(404).json({status: '404',mensagem:'servidor não conseguiu encontrar o recurso solicitado',erro: err})
+    notFound: (res, detalhes) => {
+      res.status(404).json({ status: '404', 
+                             mensagem: 'servidor não conseguiu encontrar o recurso solicitado',
+                             detalhes: detalhes });
     }
+  };
 
-    
-}
-module.exports= resposta
+module.exports= respostas
 
 // 200 OK
 //      Indica que a API REST executou com êxito qualquer ação solicitada pelo cliente
