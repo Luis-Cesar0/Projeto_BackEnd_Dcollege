@@ -22,6 +22,9 @@ realiza o merge da master com sua branch - ```git merge main```
 
 ```git push --set-upstream origin funcao_update```
 
+*remove um arquivo vercionado*  
+```git rm --cached  <nome-do-seu-arquivo>```
+
 
 ____
 
