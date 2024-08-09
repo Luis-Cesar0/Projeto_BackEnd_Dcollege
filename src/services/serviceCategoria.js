@@ -50,6 +50,7 @@ const getCategoriaId = async (req, res) => {
         res.json(error);
     }
 }
+
 const postCategoria = async (req, res) => {
     const { name,slug,use_in_menu } = req.body;
     const token = req.headers.authorization;
