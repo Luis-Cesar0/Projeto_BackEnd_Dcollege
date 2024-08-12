@@ -1,6 +1,6 @@
 ____
 **COMANDOS GIT**  
-*atualizadno uma branch diferente da main*  
+*atualizando uma branch diferente da main*  
 
 atualiza seu repositório local com a mais nova versão da master - ```git pull origin main```  
 acessa sua branch local que receberá as atualizações da master -``` git checkout <nome-do-seu-branch-local>```  
@@ -21,6 +21,9 @@ realiza o merge da master com sua branch - ```git merge main```
 *Faz um push e cria uma nova branch no github*  
 
 ```git push --set-upstream origin funcao_update```
+
+*remove um arquivo vercionado*  
+```git rm --cached  <nome-do-seu-arquivo>```
 
 
 ____

@@ -1,4 +1,3 @@
-const express = require('express');
 const categorias = require('../models/tabelaCategoria');
 const categoriaService = require('../services/serviceCategoria');
 
