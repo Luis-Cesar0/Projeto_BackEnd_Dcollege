@@ -104,11 +104,9 @@ const deleteCategoria = async (req, res) => {
                     id:id
                 }
             });
-            if(categoriaDelet) return resposta.notFound(res,`categoria com id= ${id} não foi encotrado`)
+            if(!categoriaDelet) return resposta.notFound(res,`categoria com id= ${id} não foi encotrado`)
             resposta.noContent(res)
  
-                //falta 0 token para o 401
-
     } catch (error) {
         resposta.InternalServerError(res,'Ocorreu um erro na exclusão da categoria categoria')
     }
