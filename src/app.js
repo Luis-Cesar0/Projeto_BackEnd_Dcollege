@@ -8,7 +8,9 @@ app.use(express.json())
 
 // rota padrão para testar as configurações 
 app.get('/',(req,res) => {
-  res.send('teste')
+  res.json({
+    message: 'Bem-vindo',
+});
 })
 
 app.use('/usuarios', usuarioRoutes);

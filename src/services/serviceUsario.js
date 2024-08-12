@@ -25,9 +25,17 @@ const postUser = async (req,res)=>{
         return respostas.badRequest(res, 'Os campos estão vazio');
       }
     try {
+         // Verificar se o e-mail já existe
+         const usuarioExite = await tabelaUsuarios.findOne({ where: { email: email } });
+         if (usuarioExite) {
+             return respostas.badRequest(res , 'Email,já exite');
+         }
+
+        // Criptografar a senha
         const salt =await bcrypt.genSalt(10)
         const hashedSenha = await bcrypt.hash(password,salt)
-
+        
+        //cirando usuario
         const novoUsuario = await tabelaUsuarios.create({
             firstname: firstname ,
             surname:surname ,

@@ -1,4 +1,4 @@
-const serviceLogin = require('../services/serviceUser.js')
+const serviceLogin = require('../services/serviceLogin.js')
 
 const controllerLogin = (req,res) => {
     serviceLogin(req,res)

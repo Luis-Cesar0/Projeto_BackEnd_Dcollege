@@ -5,7 +5,7 @@ function validaToken(req, res, next) {
 // resgatar o token da requisição
 const retornaToken = req.header('Authorization');
 
-
+console.log(req.header('Authorization'))
 // o token será somente a segunda parte da string
 const token = retornaToken.split(' ')[1]
 
