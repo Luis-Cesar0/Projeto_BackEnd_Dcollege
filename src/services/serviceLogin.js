@@ -21,8 +21,6 @@ const login = async(req, res) => {
     
     //caso o email esteja correto verificar a password
     //bycrypt.compare retorna se a senha esta correta
-    console.log(password, usuario.dataValues.password)
-
     const passwordCorreta = await bcrypt.compare(password, usuario.dataValues.password)
     
     // caso passwordCorreta seja false
