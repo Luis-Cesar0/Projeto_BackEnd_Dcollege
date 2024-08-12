@@ -33,7 +33,8 @@ const login = async(req, res) => {
     respostas.success(res,'token criado',token)
         
     } catch (error) {
-        respostas.InternalServerError(res,'erro ao fazer login')
+        // respostas.InternalServerError(res,'erro ao fazer login')
+        res.json(error)
     }
 }
 module.exports = login
