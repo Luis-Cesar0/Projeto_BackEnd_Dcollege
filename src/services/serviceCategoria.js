@@ -52,12 +52,6 @@ const getCategoriaId = async (req, res) => {
 }
 const postCategoria = async (req, res) => {
     const { name,slug,use_in_menu } = req.body;
-    const token = req.headers.authorization;
-
-    if (!token) {
-        return resposta.unauthorized(res, 'Token de autorização não fornecido');
-    }
-
     if (!name || !slug || !use_in_menu) {
         resposta.badRequest(res, 'Todos os campos são obrigatórios');
     }
@@ -80,41 +74,30 @@ const postCategoria = async (req, res) => {
 
 const putCategoria = async (req, res) => {
     const id = req.params.id;
-    const token = req.headers.authorization;
     const { name, slug, use_in_menu } = req.body;
-        //TOKEN PARA O 401
-        if (!token) {
-            return resposta.unauthorized(res, 'Token de autorização não fornecido');
-        }
 
+    if (!name && !slug && !use_in_menu) {
+        resposta.badRequest(res, 'Todos os campos nao podem estar vazios');
+    }
     try {
         const AttCategoria = await tabelaCategoria.update({
             name: name,
             slug: slug,
-            use_in_menu: use_in_menu,
-            
-        }, {
-            where: {
-                id:id
-            }
-        });
-        if(AttCategoria) return resposta.notFound(res,'Categoria não encontrada')
-        resposta.noContent(res)
-            //falta o token para o 401
-
+            use_in_menu: use_in_menu
+        },
+        {where:{id:id}}
+    )
+    if(!AttCategoria)  return resposta.notFound(res,'Categoria não encontrada')
+    resposta.noContent(res)    
     } catch (error) {
-        resposta.InternalServerError(res,'Ocorreu um erro na atuaçozação da categoria')
+        resposta.InternalServerError(res,'Ocorreu um erro na atualização da categoria')
     }
 }
 
+
+
 const deleteCategoria = async (req, res) => {
     const id = req.params.id;
-    const token = req.headers.authorization;
-    //FALTA O TOKEN PARA O 401
-    if (!token) {
-        return resposta.unauthorized(res, 'Token de autorização não fornecido');
-    }
-
     try {
             const categoriaDelet = await tabelaCategoria.destroy({
                 where: {
