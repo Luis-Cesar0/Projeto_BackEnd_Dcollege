@@ -1,5 +1,6 @@
 const sequelize =require('../config/conexao')
 const { DataTypes } = require('sequelize')
+const produtos = require('./tabelaProdutos')
 
 const opcoesProduto = sequelize.define('opcoesProduto', {
     id: {
@@ -42,9 +43,10 @@ const opcoesProduto = sequelize.define('opcoesProduto', {
         defaultValue: DataTypes.NOW,
         onUpdate: DataTypes.NOW
     }
-    
-
 });
+
+opcoesProduto.belongsTo(produtos);
+produtos.hasMany(opcoesProduto);
 
 sequelize.sync()
     .then(() => {

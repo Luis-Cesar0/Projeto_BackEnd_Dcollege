@@ -17,11 +17,10 @@ const respostas = {
   noContent: (res) => {
     res.status(204).json({ status: '204' });
   },
-  badRequest: (res, mensagem, obs) => {
+  badRequest: (res, mensagem) => {
     res.status(400).json({
       status: '400',
-      mensagem: mensagem,
-      obs: obs
+      mensagem: mensagem
     });
   },
   unauthorized: (res, mensagem) => {

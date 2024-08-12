@@ -1,7 +1,10 @@
 
 const { map } = require("../app")
 const tabelaProdutos = require("../models/tabelaProdutos")
+const tabelaImagensProduto = require("../models/imagensProduto")
+const tabelaOpcoesProduto = require("../models/opcoesProduto")
 const resposta = require('../responses')
+
 
 
 const getProductID = async (req, res) => {
@@ -26,7 +29,7 @@ const postProduct = async (req, res) => {
     const camposFaltando = Object.keys(obrigatorios).filter(key => !obrigatorios[key]);
 
     if (!name || !slug || !price || !price_with_discount) {
-        return resposta.badRequest(res, 'Há campos obrigatórios não preenchidos!', `Campos faltando: ${camposFaltando.join(', ')}`
+        return resposta.badRequest(res, `Há campos obrigatórios não preenchidos! Campos faltando: ${camposFaltando.join(', ')}`
         )
     }
 
@@ -41,9 +44,9 @@ const postProduct = async (req, res) => {
             price: price,
             price_with_discount: price_with_discount
         })
-        res.json(createProdutos)
+        resposta.created(res, 'Produto criado com sucesso!')
     }catch(error){
-        resposta.badRequest(res, error)
+        resposta.badRequest(res, 'Ocorreu um erro na criação do Produto')
     }
 }
 

@@ -1,5 +1,6 @@
-const sequelize =require('../config/conexao')
+const sequelize = require('../config/conexao')
 const { DataTypes } = require('sequelize')
+const produtos = require('./tabelaProdutos')
 
 const imagensProduto = sequelize.define('imagensProduto', {
     id: {
@@ -37,6 +38,9 @@ const imagensProduto = sequelize.define('imagensProduto', {
 
 });
 
+imagensProduto.belongsTo(produtos);
+produtos.hasMany(imagensProduto);
+
 sequelize.sync()
     .then(() => {
         console.log('Tabelas imagensProduto sincronizadas.');
@@ -45,4 +49,4 @@ sequelize.sync()
         console.error('Erro ao sincronizar tabelas:', err);
     });
 
-module.exports= imagensProduto
+module.exports = imagensProduto
