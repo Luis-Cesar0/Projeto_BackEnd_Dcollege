@@ -22,12 +22,20 @@ async function getUserId(req,res){
 const postUser = async (req,res)=>{
     const {firstname,surname,email,password} = req.body
     if (!firstname || !surname || !email || !password) {
-        return respostas.badRequest(res, 'Os campos estão vazio');
+        return respostas.badRequest(res, 'os campos são obrigatórios');
       }
     try {
+         // Verificar se o e-mail já existe
+         const usuarioExite = await tabelaUsuarios.findOne({ where: { email: email } });
+         if (usuarioExite) {
+             return respostas.badRequest(res , 'Email,já exite');
+         }
+
+        // Criptografar a senha
         const salt =await bcrypt.genSalt(10)
         const hashedSenha = await bcrypt.hash(password,salt)
-
+        
+        //cirando usuario
         const novoUsuario = await tabelaUsuarios.create({
             firstname: firstname ,
             surname:surname ,
@@ -43,13 +51,17 @@ const postUser = async (req,res)=>{
         }
 }
 
+
 // atualização do usuario
 const putUser = async(req,res)=>{ 
     const id = req.params.id
+    // verifica se os campos estão vazios
     const {firstname,surname,email} = req.body
     if (!firstname && !surname && !email) {
-        return respostas.badRequest(res, 'Todos os campos são obrigatórios');
+        return respostas.badRequest(res, 'todos os campos não podem esta vazio');
       }
+
+      
     try {
         const AttUsuario = await tabelaUsuarios.update({
             firstname: firstname ,
@@ -60,14 +72,12 @@ const putUser = async(req,res)=>{
     )
     if(!AttUsuario)  return respostas.notFound(res,'Usuario não encontrado')
     respostas.noContent(res)
-
-        //falta o token para o 401
-
     
     }catch(error){
         respostas.InternalServerError(res,'Ocorreu um na atulização das informações do usuario')
     }
 }
+
 
 // remoção do usuario
 const deleteUser = async (req,res)=>{
