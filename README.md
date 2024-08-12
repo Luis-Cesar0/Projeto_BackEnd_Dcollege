@@ -1,6 +1,6 @@
 ____
 **COMANDOS GIT**  
-*atualizadno uma branch diferente da main*  
+*atualizando uma branch diferente da main*  
 
 atualiza seu repositório local com a mais nova versão da master - ```git pull origin main```  
 acessa sua branch local que receberá as atualizações da master -``` git checkout <nome-do-seu-branch-local>```  
