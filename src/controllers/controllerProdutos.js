@@ -2,8 +2,12 @@ const express = require('express');
 const { getProductID, postProduct } = require('../services/serviceProdutos')
 const tabelaProdutos = require("../models/tabelaProdutos")
 
-const controllerProdutos = (req,res) => {
+const controllerGetProdutosID = (req,res) => {
     getProductID(req, res)
 }
 
-module.exports = { controllerProdutos }
+const controllerPostProduct = (req,res) => {
+    postProduct(req, res)
+}
+
+module.exports = { controllerGetProdutosID, controllerPostProduct }

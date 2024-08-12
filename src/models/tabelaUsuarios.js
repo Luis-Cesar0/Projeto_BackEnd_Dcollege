@@ -1,4 +1,4 @@
-const sequelize =require('../config/conexao')
+const sequelize = require('../config/conexao')
 const { DataTypes } = require('sequelize')
 
 // Definindo o modelo Usuario
