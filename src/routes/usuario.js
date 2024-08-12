@@ -13,7 +13,7 @@ routerUsuario.post('/',authorization,(req,res)=>{
     controllerPostUser(req,res)
 })
 routerUsuario.put('/:id',authorization,(req,res)=>{
-    controllerPutUser,authorization,(req,res)
+    controllerPutUser(req,res)
 })
 routerUsuario.delete('/:id',authorization,(req,res)=>{
     controlergetDeleteUser(req,res)

@@ -98,7 +98,7 @@ const putCategoria = async (req, res) => {
                 id:id
             }
         });
-        if(AttCategoria) return resposta.notFound(res,'Categoria não encontrada')
+        if(!AttCategoria) return resposta.notFound(res,'Categoria não encontrada')
         resposta.noContent(res)
             //falta o token para o 401
 
