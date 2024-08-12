@@ -1,5 +1,5 @@
 const express = require('express');
-const { getProductID, postProduct } = require('../services/serviceProdutos')
+const { getProductID, postProduct, putProduct, deleteProdutos } = require('../services/serviceProdutos')
 const tabelaProdutos = require("../models/tabelaProdutos")
 
 const controllerGetProdutosID = (req,res) => {
@@ -10,4 +10,13 @@ const controllerPostProduct = (req,res) => {
     postProduct(req, res)
 }
 
-module.exports = { controllerGetProdutosID, controllerPostProduct }
+const controllerPutProduct = (req,res) => {
+    putProduct(req,res)
+}
+
+const controllerDeleteProduct = (req,res) => {
+    deleteProdutos(req,res)
+}
+
+
+module.exports = { controllerGetProdutosID, controllerPostProduct, controllerPutProduct, controllerDeleteProduct }
