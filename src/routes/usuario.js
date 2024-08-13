@@ -7,7 +7,7 @@ const authorization = require('../middleware/authentication')
 
  
 routerUsuario.get('/:id',(req,res)=>{
-    controlergetUserId(req,res)
+    controllergetUserId(req,res)
 })
 routerUsuario.post('/',authorization,(req,res)=>{
     controllerPostUser(req,res)
