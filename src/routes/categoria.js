@@ -6,8 +6,14 @@ const categoriaRoutes = express.Router()
 
 categoriaRoutes.get('/',getCategorias)
 categoriaRoutes.get('/:id',getCategoriaId)
-categoriaRoutes.post('/',authorization ,postCategoria)
-categoriaRoutes.put('/:id', authorization ,putCategoria)
+
+categoriaRoutes.post('/',authorization,(req,res)=>{
+    postCategoria(req,res)
+})
+
+categoriaRoutes.put('/:id', authorization , (req,res)=>{
+    putCategoria(req,res)
+})
 
 
 categoriaRoutes.delete('/:id',authorization,(req,res)=>{
