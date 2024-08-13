@@ -70,3 +70,74 @@ importação
 exportação  
 
 ```module.exports = express;```
+
+Here's a README draft inspired by the structure of the project you mentioned:
+
+---
+
+# Projeto Backend - Geracão Tech
+
+Este repositório contém o backend do projeto Geração Tech, desenvolvido como parte de um trabalho acadêmico para o curso de Desenvolvimento Full Stack.
+
+## Tecnologias Utilizadas
+
+- **Node.js**: Plataforma de desenvolvimento.
+- **Express.js**: Framework para criação de APIs.
+- **Sequelize**: ORM para interação com bancos de dados.
+- **MySQL**: Banco de dados relacional.
+
+## Instalação
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/Luis-Cesar0/Projeto_BackEnd_Dcollege.git
+   ```
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+## Configuração
+
+1. Crie o arquivo `.env` e configure com as seguintes informações: 
+ ```bash
+    DB_HOST=monorail.proxy.rlwy.net
+    DB_USER=root
+    DB_PASS=CIREobKtrYwudjCLeADoBehkUikHExdx
+    DB_NAME=railway
+    DB_PORT=11097
+    DB_DIALECT=mysql
+   ```
+
+2. Execute as migrações do banco de dados:
+   ```bash
+   npx sequelize db:migrate
+   ```
+
+## Uso
+
+Para iniciar o servidor em modo de desenvolvimento, execute:
+```bash
+npm run dev
+```
+
+## Estrutura do Projeto
+
+- `src/`
+  - `controllers/`: Controladores das rotas.
+  - `models/`: Definição dos modelos Sequelize.
+  - `routes/`: Definição das rotas da API.
+  - `config/`: Configurações do banco de dados e outras.
+
+## Funcionalidades
+
+- **Autenticação**: Implementação de JWT para autenticação de usuários.
+- **CRUD**: Operações de Create, Read, Update e Delete para as entidades principais.
+- **Validação**: Validação de dados de entrada usando middleware.
+
+## Contribuidores
+
+- [Natanael Neves](https://github.com/natanaelneves)
+- [Luis Cesar](https://github.com/Luis-Cesar0)
+
+---
