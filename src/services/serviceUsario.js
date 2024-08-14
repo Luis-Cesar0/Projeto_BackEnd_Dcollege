@@ -10,8 +10,16 @@ async function getUserId(req,res){
     try {
         const usuario = await tabelaUsuarios.findByPk(id)
         if(!usuario) return respostas.notFound(res,'Usario não encotrado')
-
-        respostas.success(res,'Usuario encontrado',usuario)
+        
+        const showUser ={
+            id: usuario.id,
+            firstname: usuario.firstname,
+            surname: usuario.surname,
+            email: usuario.email,
+            password: usuario.password,
+            
+        }
+        respostas.success(res,'Usuario encontrado',showUser)
 
     }catch(erro){
        respostas.InternalServerError(res,'Ocorreu um erro ao procura um usuario')
