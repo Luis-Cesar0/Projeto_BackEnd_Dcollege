@@ -4,7 +4,10 @@ const tabelaProdutos = require("../models/tabelaProdutos")
 const resposta = require('../responses')
 const produtos = require("../models/tabelaProdutos")
 
+const getProduct = async (req, res) => {
 
+    
+}
 
 const getProductID = async (req, res) => {
     const id = req.params.id
