@@ -1,13 +1,76 @@
 
+const {Op} = require('sequelize')
 const { map, options } = require("../app")
 const tabelaProdutos = require("../models/tabelaProdutos")
 const resposta = require('../responses')
 const produtos = require("../models/tabelaProdutos")
+const { query } = require("../config/conexao")
 
 const getProduct = async (req, res) => {
+    try{
+        const {limit = 12, page = 2, fields, match,category_ids, price_range, option} = req.query;
+        const queryOptions = {};
+        let queryLimit = parseInt(limit);
+        if(queryLimit === -1){
+            queryLimit = null;
+        }else if(isNaN(queryLimit) || queryLimit <= 0 ){
+            queryLimit = 12;
+        }
 
+        if(fields){
+            queryOptions.attributes = fields.split(',');
+        }
+        if(category_ids){
+            const categoryIdsArray = category_ids.split(',').map(id => parseInt(id));
+            where.category_ids = {[Op.in]:categoryIdsArray}
+        }
+        if(price_range){
+            const [minPrice, maxPrice] = price_range.split('-').map(price => parseFloat(price));
+            if(!isNaN(minPrice) && !isNaN(maxPrice)){
+                where.price = {[Op.between]:[minPrice,maxPrice]};
+            }
+        }
+        let where = {};
+        if(match){
+            where[Op.or] = [
+                {name : {[Op.like]:`%&{match}%` }},
+                {description : {[Op.like]:`%&{match}%` }},
+            ]
+        }
+        if (Object.keys(option).length > 0){
+            const optionFilters = [];
+            for (const[key,value] of Object.entries(option)){
+                const valuesArray = value.split(',');
+                optionFilters.push({
+                    [Op.and]:{
+                        [`options.${key}`]:{[Op.in]:valuesArray}
+                    }
+                })
+            }
+            where[Op.and] = optionFilters
+        }
+        const produtos = await tabelaProdutos.findAll({
+            attributes,
+            where,
+            limit: queryLimit,
+            offset: queryOffset,
+        })
+
+        if(produtos.length === 0){
+            return res.status(404).json({message :'Nenhum produto encontrado!'})
+        }
+        return res.status(200).json({
+            message : 'Produtos encontrados!',
+            data:produtos
+        });
+
+    }catch (error){
+        return res.status(500).json({message : 'Ocorreu um erro ao buscar os produtos!'})
+    }
     
-}
+    }
+    
+
 
 const getProductID = async (req, res) => {
     const id = req.params.id
@@ -65,6 +128,7 @@ const putProduct = async (req, res) => {
     const id = req.params.id
     const { enabled, name, slug, use_in_menu, stock, description, price, price_with_discount, images, options } = req.body
     const obrigatorios = { name, slug, price, price_with_discount }
+
     const camposFaltando = Object.keys(obrigatorios).filter(key => !obrigatorios[key]);
     if (!name || !slug || !price || !price_with_discount) {
         return resposta.badRequest(res, `Há campos obrigatórios não preenchidos! Campos faltando: ${camposFaltando.join(', ')}`
@@ -73,16 +137,7 @@ const putProduct = async (req, res) => {
     try {
         const produtoAtualizado = await tabelaProdutos.update({
             // testar o putProduct no app.js, utilizando o postman ou qualquer um que funcione como o postman
-            enabled,
-            name,
-            slug,
-            use_in_menu,
-            stock,
-            description,
-            price,
-            price_with_discount,
-            images,
-            options
+            
         },
         {where:{id:id}}
     );  
@@ -106,6 +161,8 @@ const deleteProdutos = async(req,res) => {
             resposta.InternalServerError(res,'Ocorreu um erro na remoção do produto')
         }
 }
+
+
 
 
 
