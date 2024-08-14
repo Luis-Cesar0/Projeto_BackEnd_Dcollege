@@ -1,23 +1,24 @@
 
-const {controlergetUserId,controllerPostUser,controllerPutUser,controlergetDeleteUser}= require('../controllers/contollerUsuarios');
+const {controllergetUserId,controllerPostUser,controllerPutUser,controllergetDeleteUser}= require('../controllers/contollerUsuarios');
 const express=require('express');
-const routerUser = express.Router()
+const routerUsuario = express.Router()
+const authorization = require('../middleware/authentication')
 
 
  
-routerUser.get('/:id',(req,res)=>{
-    controlergetUserId(req,res)
+routerUsuario.get('/:id',(req,res)=>{
+    controllergetUserId(req,res)
 })
-routerUser.post('/',(req,res)=>{
+routerUsuario.post('/',authorization,(req,res)=>{
     controllerPostUser(req,res)
 })
-routerUser.put('/:id',(req,res)=>{
+routerUsuario.put('/:id',authorization,(req,res)=>{
     controllerPutUser(req,res)
 })
-routerUser.delete('/:id',(req,res)=>{
-    controlergetDeleteUser(req,res)
+routerUsuario.delete('/:id',authorization,(req,res)=>{
+    controllergetDeleteUser(req,res)
 })
 
-module.exports= routerUser
+module.exports= routerUsuario
 
 

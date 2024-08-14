@@ -1,18 +1,24 @@
 require('dotenv').config()
 const express = require('express');
-const app = express();
+const app = express()
 const usuarioRoutes = require('./routes/usuario')
-const routerProduct = require('./routes/produtos')
+const categoriaRoutes = require('./routes/categoria')
+const loginRoutes = require('./routes/login.js')
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 
 // rota padrão para testar as configurações 
 app.get('/',(req,res) => {
-  res.send('teste')
+  res.json({
+    message: 'Bem-vindo',
+});
 })
 
-app.use('/usuarios', usuarioRoutes)
-app.use('/product', routerProduct)
+app.use('/usuarios', usuarioRoutes);
+app.use('/categorias', categoriaRoutes);
+app.use('/user',loginRoutes)
 
 // exportatnado a aplicação Express
 module.exports = app;

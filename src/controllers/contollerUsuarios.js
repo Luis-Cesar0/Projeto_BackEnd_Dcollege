@@ -2,7 +2,7 @@ const {getUserId,postUser,putUser,deleteUser} = require('../services/serviceUsar
 
 
 
-const controlergetUserId =(req,res) =>{
+const controllergetUserId =(req,res) =>{
     getUserId(req,res)
 }
 const controllerPostUser =(req,res) =>{
@@ -11,13 +11,13 @@ const controllerPostUser =(req,res) =>{
 const controllerPutUser =(req,res) =>{
     putUser(req,res)
 }
-const controlergetDeleteUser =(req,res)=>{
+const controllergetDeleteUser =(req,res)=>{
     deleteUser(req,res)
 }
 
 module.exports= {
-    controlergetUserId,
+    controllergetUserId,
     controllerPostUser,
     controllerPutUser,
-    controlergetDeleteUser
+    controllergetDeleteUser
 }
