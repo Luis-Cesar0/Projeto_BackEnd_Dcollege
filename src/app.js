@@ -17,7 +17,7 @@ app.get('/',(req,res) => {
 })
 
 app.use('/usuarios', usuarioRoutes);
-app.use('/categorias', categoriaRoutes);
+app.use(categoriaRoutes);
 app.use('/user',loginRoutes)
 
 // exportatnado a aplicação Express
