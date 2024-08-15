@@ -1,5 +1,5 @@
 
-const {Op} = require('sequelize')
+const { Op } = require('sequelize')
 const { map, options } = require("../app")
 const tabelaProdutos = require("../models/tabelaProdutos")
 const resposta = require('../responses')
@@ -7,43 +7,43 @@ const produtos = require("../models/tabelaProdutos")
 const { query } = require("../config/conexao")
 
 const getProduct = async (req, res) => {
-    try{
-        const {limit = 12, page = 2, fields, match,category_ids, price_range, option} = req.query;
+    try {
+        const { limit = 12, page = 2, fields, match, category_ids, price_range, option } = req.query;
         const queryOptions = {};
         let queryLimit = parseInt(limit);
-        if(queryLimit === -1){
+        if (queryLimit === -1) {
             queryLimit = null;
-        }else if(isNaN(queryLimit) || queryLimit <= 0 ){
+        } else if (isNaN(queryLimit) || queryLimit <= 0) {
             queryLimit = 12;
         }
 
-        if(fields){
+        if (fields) {
             queryOptions.attributes = fields.split(',');
         }
-        if(category_ids){
+        if (category_ids) {
             const categoryIdsArray = category_ids.split(',').map(id => parseInt(id));
-            where.category_ids = {[Op.in]:categoryIdsArray}
+            where.category_ids = { [Op.in]: categoryIdsArray }
         }
-        if(price_range){
+        if (price_range) {
             const [minPrice, maxPrice] = price_range.split('-').map(price => parseFloat(price));
-            if(!isNaN(minPrice) && !isNaN(maxPrice)){
-                where.price = {[Op.between]:[minPrice,maxPrice]};
+            if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+                where.price = { [Op.between]: [minPrice, maxPrice] };
             }
         }
         let where = {};
-        if(match){
+        if (match) {
             where[Op.or] = [
-                {name : {[Op.like]:`%&{match}%` }},
-                {description : {[Op.like]:`%&{match}%` }},
+                { name: { [Op.like]: `%&{match}%` } },
+                { description: { [Op.like]: `%&{match}%` } },
             ]
         }
-        if (Object.keys(option).length > 0){
+        if (Object.keys(option).length > 0) {
             const optionFilters = [];
-            for (const[key,value] of Object.entries(option)){
+            for (const [key, value] of Object.entries(option)) {
                 const valuesArray = value.split(',');
                 optionFilters.push({
-                    [Op.and]:{
-                        [`options.${key}`]:{[Op.in]:valuesArray}
+                    [Op.and]: {
+                        [`options.${key}`]: { [Op.in]: valuesArray }
                     }
                 })
             }
@@ -56,20 +56,20 @@ const getProduct = async (req, res) => {
             offset: queryOffset,
         })
 
-        if(produtos.length === 0){
-            return res.status(404).json({message :'Nenhum produto encontrado!'})
+        if (produtos.length === 0) {
+            return res.status(404).json({ message: 'Nenhum produto encontrado!' })
         }
         return res.status(200).json({
-            message : 'Produtos encontrados!',
-            data:produtos
+            message: 'Produtos encontrados!',
+            data: produtos
         });
 
-    }catch (error){
-        return res.status(500).json({message : 'Ocorreu um erro ao buscar os produtos!'})
+    } catch (error) {
+        return res.status(500).json({ message: 'Ocorreu um erro ao buscar os produtos!' })
     }
-    
-    }
-    
+
+}
+
 
 
 const getProductID = async (req, res) => {
@@ -87,13 +87,15 @@ const getProductID = async (req, res) => {
     }
 }
 
-const postProduct = async (req, res) => { 
+const postProduct = async (req, res) => {
     // Colocar as consts dentro de um "data" e exibir conforme a documentação do projeto Backend
     // Atualizar a const do "req.body" colocando "images" e "options" (Como o exemplo do putProduct)
+
+    // ALTERAR AQUI:
     const { enabled, name, slug, use_in_menu, stock, description, price, price_with_discount, images, options } = req.body
     const obrigatorios = { name, slug, price, price_with_discount }
 
-    const camposFaltando = Object.keys(obrigatorios).filter(key => !obrigatorios[key]); 
+    const camposFaltando = Object.keys(obrigatorios).filter(key => !obrigatorios[key]);
 
     if (!name || !slug || !price || !price_with_discount) {
         return resposta.badRequest(res, `Há campos obrigatórios não preenchidos! Campos faltando: ${camposFaltando.join(', ')}`
@@ -101,7 +103,7 @@ const postProduct = async (req, res) => {
     }
     // Fazer consts para retornar o conteúdo dentro de "images" e "options"
 
- 
+
     try {
         const createProdutos = await tabelaProdutos.create({
             enabled: enabled,
@@ -115,7 +117,7 @@ const postProduct = async (req, res) => {
             // Adaptar images e options para informar o conteúdo dentro deles
             images: images,
             options: options
-        
+
 
         })
         resposta.created(res, 'Produto criado com sucesso!')
@@ -126,6 +128,7 @@ const postProduct = async (req, res) => {
 
 const putProduct = async (req, res) => {
     const id = req.params.id
+    // ALTERAR AQUI:
     const { enabled, name, slug, use_in_menu, stock, description, price, price_with_discount, images, options } = req.body
     const obrigatorios = { name, slug, price, price_with_discount }
 
@@ -137,29 +140,29 @@ const putProduct = async (req, res) => {
     try {
         const produtoAtualizado = await tabelaProdutos.update({
             // testar o putProduct no app.js, utilizando o postman ou qualquer um que funcione como o postman
-            
+
         },
-        {where:{id:id}}
-    );  
-    if(!AttUsuario)  return resposta.notFound(res,'Produto não encontrado')
+            { where: { id: id } }
+        );
+        if (!AttUsuario) return resposta.notFound(res, 'Produto não encontrado')
         resposta.noContent(res)
-    
+
         return resposta.success(res, produtoAtualizado);
-    }catch(error){
-        resposta.InternalServerError(res,'Ocorreu um erro na atulização de produtos')
+    } catch (error) {
+        resposta.InternalServerError(res, 'Ocorreu um erro na atulização de produtos')
     }
-    
+
 }
-const deleteProdutos = async(req,res) => {
+const deleteProdutos = async (req, res) => {
     const id = req.params.id
-    try{
-        const produtos = await tabelaProdutos.destroy({where:{id:id}})
-        if(!produtos) return resposta.notFound(res, `Produto com o id=${id} não foi encontrado`)
-           
-         resposta.noContent(res) 
-        }catch(error){
-            resposta.InternalServerError(res,'Ocorreu um erro na remoção do produto')
-        }
+    try {
+        const produtos = await tabelaProdutos.destroy({ where: { id: id } })
+        if (!produtos) return resposta.notFound(res, `Produto com o id=${id} não foi encontrado`)
+
+        resposta.noContent(res)
+    } catch (error) {
+        resposta.InternalServerError(res, 'Ocorreu um erro na remoção do produto')
+    }
 }
 
 
