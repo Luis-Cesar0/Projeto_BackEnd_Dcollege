@@ -88,9 +88,6 @@ const getProductID = async (req, res) => {
 }
 
 const postProduct = async (req, res) => {
-    // Colocar as consts dentro de um "data" e exibir conforme a documentação do projeto Backend
-    // Atualizar a const do "req.body" colocando "images" e "options" (Como o exemplo do putProduct)
-
     // ALTERAR AQUI:
     const { enabled, name, slug, use_in_menu, stock, description, price, price_with_discount, images, options } = req.body
     const obrigatorios = { name, slug, price, price_with_discount }
