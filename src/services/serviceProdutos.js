@@ -5,6 +5,8 @@ const tabelaProdutos = require("../models/tabelaProdutos")
 const resposta = require('../responses')
 const produtos = require("../models/tabelaProdutos")
 const { query } = require("../config/conexao")
+const usuario = require('../models/tabelaUsuarios')
+const Categoria = require('../models/tabelaCategoria')
 
 const getProduct = async (req, res) => {
     try {
@@ -88,10 +90,30 @@ const getProductID = async (req, res) => {
 }
 
 const postProduct = async (req, res) => {
-    // ALTERAR AQUI:
-    const { enabled, name, slug, use_in_menu, stock, description, price, price_with_discount, images, options } = req.body
-    const obrigatorios = { name, slug, price, price_with_discount }
+    const id = req.params.id;
 
+    try {
+        
+        const product = await Product.findByPk(id, {
+            include: [
+                {
+                    model: Categoria,
+                    attributes: ['id', 'nome', 'slug', 'use_in_menu'] 
+                },
+                {
+                    model: produtos, 
+                    attributes: ['id', 'enabled', 'name', 'slug', 'use_in_menu', 'stock', 'description', 'price', 'price_with_discount' ] 
+                },
+                {
+                    model: usuario, 
+                    attributes: ['id', 'firstname', 'surname', 'email', 'password' ] 
+                }
+            ]
+        });
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
     const camposFaltando = Object.keys(obrigatorios).filter(key => !obrigatorios[key]);
 
     if (!name || !slug || !price || !price_with_discount) {
@@ -124,10 +146,30 @@ const postProduct = async (req, res) => {
 }
 
 const putProduct = async (req, res) => {
-    const id = req.params.id
-    // ALTERAR AQUI:
-    const { enabled, name, slug, use_in_menu, stock, description, price, price_with_discount, images, options } = req.body
-    const obrigatorios = { name, slug, price, price_with_discount }
+    const id = req.params.id;
+
+    try {
+        
+        const product = await product.findByPk(id, {
+            include: [
+                {
+                    model: Categoria,
+                    attributes: ['id', 'nome', 'slug', 'use_in_menu'] 
+                },
+                {
+                    model: produtos, 
+                    attributes: ['id', 'enabled', 'name', 'slug', 'use_in_menu', 'stock', 'description', 'price', 'price_with_discount' ] 
+                },
+                {
+                    model: usuario, 
+                    attributes: ['id', 'firstname', 'surname', 'email', 'password' ] 
+                }
+            ]
+        });
+
+        if (!product) {
+            return res.status(404).json({ error: 'Produto não encontrado' });
+        }
 
     const camposFaltando = Object.keys(obrigatorios).filter(key => !obrigatorios[key]);
     if (!name || !slug || !price || !price_with_discount) {
@@ -159,7 +201,9 @@ const deleteProdutos = async (req, res) => {
         resposta.noContent(res)
     } catch (error) {
         resposta.InternalServerError(res, 'Ocorreu um erro na remoção do produto')
+        
     }
+    
 }
 
 
@@ -171,4 +215,4 @@ module.exports = {
     postProduct,
     putProduct,
     deleteProdutos
-};
+};}}
