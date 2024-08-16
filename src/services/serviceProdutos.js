@@ -9,64 +9,69 @@ const respostas = require('../responses')
 
 const getProduct = async (req, res) => {
     try {
-        const { limit = 12, page = 2, fields, match, category_ids, price_range, option } = req.query;
-        const queryOptions = {};
+        const { limit = 12, page = 1, fields, match, category_ids, price_range, option = {} } = req.query;
+
+        let queryOptions = {};
+        let where = {};
+
         let queryLimit = parseInt(limit);
         if (queryLimit === -1) {
-            queryLimit = null;
+            queryLimit = null; 
         } else if (isNaN(queryLimit) || queryLimit <= 0) {
-            queryLimit = 12;
+            queryLimit = 12; 
         }
+
+        const queryOffset = queryLimit && queryLimit !== -1 ? (parseInt(page) - 1) * queryLimit : null;
 
         if (fields) {
             queryOptions.attributes = fields.split(',');
         }
+
         if (category_ids) {
             const categoryIdsArray = category_ids.split(',').map(id => parseInt(id));
-            where.category_ids = { [Op.in]: categoryIdsArray }
+            where.category_ids = { [Op.in]: categoryIdsArray };
         }
+
         if (price_range) {
             const [minPrice, maxPrice] = price_range.split('-').map(price => parseFloat(price));
             if (!isNaN(minPrice) && !isNaN(maxPrice)) {
                 where.price = { [Op.between]: [minPrice, maxPrice] };
             }
         }
-        let where = {};
+
         if (match) {
             where[Op.or] = [
-                { name: { [Op.like]: `%&{match}%` } },
-                { description: { [Op.like]: `%&{match}%` } },
-            ]
+                { name: { [Op.like]: `%${match}%` } },
+                { description: { [Op.like]: `%${match}%` } },
+            ];
         }
+
         if (Object.keys(option).length > 0) {
             const optionFilters = [];
             for (const [key, value] of Object.entries(option)) {
                 const valuesArray = value.split(',');
                 optionFilters.push({
-                    [Op.and]: {
-                        [`options.${key}`]: { [Op.in]: valuesArray }
-                    }
-                })
+                    [`options.${key}`]: { [Op.in]: valuesArray }
+                });
             }
-            where[Op.and] = optionFilters
+            where[Op.and] = optionFilters;
         }
-        const produtos = await tabelaProdutos.findAll({
-            attributes,
-            where,
-            limit: queryLimit,
-            offset: queryOffset,
-        })
+
+        queryOptions.where = where;
+        queryOptions.limit = queryLimit;
+        queryOptions.offset = queryOffset;
+
+        // Executando a consulta
+        const produtos = await tabelaProdutos.findAll(queryOptions);
 
         if (produtos.length === 0) {
-            return res.status(404).json({ message: 'Nenhum produto encontrado!' })
+            return respostas.notFound(res, 'Nenhum produto encontrado!')
         }
-        return res.status(200).json({
-            message: 'Produtos encontrados!',
-            data: produtos
-        });
+
+        return respostas.success(res, 'Produtos encontrados!', produtos);
 
     } catch (error) {
-        return res.status(500).json({ message: 'Ocorreu um erro ao buscar os produtos!' })
+        respostas.InternalServerError(res, 'Ocorreu um erro ao buscar os produtos!')
     }
 
 }
@@ -191,6 +196,7 @@ const putProduct = async (req, res) => {
     }
 
 }
+
 const deleteProdutos = async (req, res) => {
     const id = req.params.id
     try {
