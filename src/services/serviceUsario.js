@@ -10,8 +10,16 @@ async function getUserId(req,res){
     try {
         const usuario = await tabelaUsuarios.findByPk(id)
         if(!usuario) return respostas.notFound(res,'Usario não encotrado')
-
-        respostas.success(res,'Usuario encontrado',usuario)
+        
+        const showUser ={
+            id: usuario.id,
+            firstname: usuario.firstname,
+            surname: usuario.surname,
+            email: usuario.email,
+            password: usuario.password,
+            
+        }
+        respostas.success(res,'Usuario encontrado',showUser)
 
     }catch(erro){
        respostas.InternalServerError(res,'Ocorreu um erro ao procura um usuario')
@@ -45,7 +53,12 @@ const postUser = async (req,res)=>{
             if(!novoUsuario){
                  return respostas.badRequest(res, 'Erro ao criar usuário')
             }
-            respostas.created(res,'usuario criando com sucesso',novoUsuario)
+            const exibeUsuario = {
+                firstname: novoUsuario.firstname,
+                surname: novoUsuario.surname,
+                email: novoUsuario.email,
+            }
+            respostas.created(res,'usuario criando com sucesso', exibeUsuario)
         }catch(error){
             respostas.InternalServerError(res,'Ocorreu um erro na criação do usuario')
         }
@@ -61,8 +74,12 @@ const putUser = async(req,res)=>{
         return respostas.badRequest(res, 'todos os campos não podem esta vazio');
       }
 
+    const usuario = await tabelaUsuarios.findByPk(id)
+    if(!usuario) return respostas.notFound(res,'Usario não encotrado')
       
     try {
+        
+        
         const AttUsuario = await tabelaUsuarios.update({
             firstname: firstname ,
             surname: surname,
@@ -70,7 +87,6 @@ const putUser = async(req,res)=>{
         },
         {where:{id:id}}
     )
-    if(!AttUsuario)  return respostas.notFound(res,'Usuario não encontrado')
     respostas.noContent(res)
     
     }catch(error){

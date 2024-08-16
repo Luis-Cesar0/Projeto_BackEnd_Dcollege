@@ -16,7 +16,8 @@ app.get('/',(req,res) => {
 });
 })
 
-app.use('/usuarios', usuarioRoutes);
+
+app.use('/v1/usuarios', usuarioRoutes);
 app.use(categoriaRoutes);
 app.use('/v1/user',loginRoutes)
 
