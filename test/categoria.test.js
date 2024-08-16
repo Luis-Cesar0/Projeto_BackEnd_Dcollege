@@ -51,7 +51,7 @@ describe('Testando a rota de categorias', () => {
 
 
   //teste do metodo get por id
-  test('Teste do método GET por id', async () => {
+  test('Teste do método GET por id', async () => {''
     const response = await request(app).get('/v1/category/1')
     expect(response.status).toBe(200);
   });
