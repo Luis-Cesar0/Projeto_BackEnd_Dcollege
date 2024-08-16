@@ -43,7 +43,7 @@ npm run dev
   - `config/`: Configurações do banco de dados e outras.  
 - `tests/`: Testes unitários e de integração com Jest e Supertest.
 
-### Rotas da API - Documentação
+### Rotas da API - 
 
 #### Usuários
 
