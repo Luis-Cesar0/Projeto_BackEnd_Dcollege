@@ -2,11 +2,10 @@
 const { Op } = require('sequelize')
 const { map, options } = require("../app")
 const tabelaProdutos = require("../models/tabelaProdutos")
-const resposta = require('../responses')
-const produtos = require("../models/tabelaProdutos")
 const { query } = require("../config/conexao")
 const usuario = require('../models/tabelaUsuarios')
 const Categoria = require('../models/tabelaCategoria')
+const respostas = require('../responses')
 
 const getProduct = async (req, res) => {
     try {
