@@ -1,5 +1,6 @@
 
 const Categories = require('../models/tabelaCategoria');
+
 const getCategorias = async (req, res) => {
   try {
     const { limit, page, fields, use_in_menu } = req.query;
