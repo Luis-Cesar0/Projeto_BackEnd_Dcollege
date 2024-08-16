@@ -7,6 +7,76 @@ const usuario = require('../models/tabelaUsuarios')
 const Categoria = require('../models/tabelaCategoria')
 const respostas = require('../responses')
 
+const getProduct = async (req, res) => {
+    try {
+        const { limit = 12, page = 1, fields, match, category_ids, price_range, option = {} } = req.query;
+
+        let queryOptions = {};
+        let where = {};
+
+        let queryLimit = parseInt(limit);
+        if (queryLimit === -1) {
+            queryLimit = null; 
+        } else if (isNaN(queryLimit) || queryLimit <= 0) {
+            queryLimit = 12; 
+        }
+
+        const queryOffset = queryLimit && queryLimit !== -1 ? (parseInt(page) - 1) * queryLimit : null;
+
+        if (fields) {
+            queryOptions.attributes = fields.split(',');
+        }
+
+        if (category_ids) {
+            const categoryIdsArray = category_ids.split(',').map(id => parseInt(id));
+            where.category_ids = { [Op.in]: categoryIdsArray };
+        }
+
+        if (price_range) {
+            const [minPrice, maxPrice] = price_range.split('-').map(price => parseFloat(price));
+            if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+                where.price = { [Op.between]: [minPrice, maxPrice] };
+            }
+        }
+
+        if (match) {
+            where[Op.or] = [
+                { name: { [Op.like]: `%${match}%` } },
+                { description: { [Op.like]: `%${match}%` } },
+            ];
+        }
+
+        if (Object.keys(option).length > 0) {
+            const optionFilters = [];
+            for (const [key, value] of Object.entries(option)) {
+                const valuesArray = value.split(',');
+                optionFilters.push({
+                    [`options.${key}`]: { [Op.in]: valuesArray }
+                });
+            }
+            where[Op.and] = optionFilters;
+        }
+
+        queryOptions.where = where;
+        queryOptions.limit = queryLimit;
+        queryOptions.offset = queryOffset;
+
+        // Executando a consulta
+        const produtos = await tabelaProdutos.findAll(queryOptions);
+
+        if (produtos.length === 0) {
+            return respostas.notFound(res, 'Nenhum produto encontrado!')
+        }
+
+        return respostas.success(res, 'Produtos encontrados!', produtos);
+
+    } catch (error) {
+        respostas.InternalServerError(res, 'Ocorreu um erro ao buscar os produtos!')
+    }
+
+}
+
+
 const getProductID = async (req, res) => {
     const id = req.params.id
     try {
