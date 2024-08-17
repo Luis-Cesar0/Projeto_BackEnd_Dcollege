@@ -55,3 +55,6 @@ sequelize.sync()
     .catch(err => {
         console.error('Erro ao sincronizar tabelas:', err);
     });
+
+
+module.exports=  opcoesProduto
