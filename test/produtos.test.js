@@ -11,7 +11,7 @@ let token;
 
   // Teste do método GET
 
-describe('Testando a rota de categorias', () => {
+describe('Testando a rota de Produtos', () => {
   jest.mock('../src/models/tabelaCategoria');
 
   beforeAll(async () => {
@@ -33,7 +33,7 @@ describe('Testando a rota de categorias', () => {
   );
 
   test('Teste do método GET', async () => {
-    const response = await request(app).get('/v1/categorias/search')
+    const response = await request(app).get('/v1/category/search')
 
     expect(response.status).toBe(200);
 
@@ -41,7 +41,7 @@ describe('Testando a rota de categorias', () => {
 
   test('Teste do metodo GET dados da requisição  incorretos', async () => {
 
-    const response = await request(app).get('/v1/categorias/search?limit=doze')
+    const response = await request(app).get('/v1/category/search?limit=doze')
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual({ error: 'dados incorretos' });
@@ -52,14 +52,14 @@ describe('Testando a rota de categorias', () => {
 
   //teste do metodo get por id
   test('Teste do método GET por id', async () => {''
-    const response = await request(app).get('/v1/categorias/1')
+    const response = await request(app).get('/v1/category/1')
     expect(response.status).toBe(200);
   });
 
 
   test('Teste do método GET por id - Recurso não encontrado', async () => {
 
-    const response = await request(app).get('/v1/categorias/123');
+    const response = await request(app).get('/v1/category/123');
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: 'Categoria inexistente ' });
@@ -72,7 +72,7 @@ describe('Testando a rota de categorias', () => {
   test('Teste do método POST dados da requisição estiverem incorretos', async () => {
      
     const response = await request(app)
-      .post('/v1/categorias')
+      .post('/v1/category')
       .set('Authorization', token)
       .send({
         name: 'Roupas',
@@ -89,7 +89,7 @@ describe('Testando a rota de categorias', () => {
   test('Tentando criar categoria com token inválido', async () => {
 
     const response = await request(app)
-      .post('/v1/categorias')
+      .post('/v1/category')
       .set('Authorization', 'tokenInvalido')
       .send({
         name: 'Roupas',
@@ -114,7 +114,7 @@ describe('Testando a rota de categorias', () => {
     });
 
     const response = await request(app)
-      .post('/v1/categorias')
+      .post('/v1/category')
       .set('Authorization', token)
       .send({
         name: 'Roupas',
@@ -136,7 +136,7 @@ describe('Testando a rota de categorias', () => {
   // Teste do método PUT
   test('Atualizando categoria com token invalido', async () => {
     const response = await request(app)
-      .put('/v1/categorias/20')
+      .put('/v1/category/20')
       .set('Authorization', 'tokenInvalido')
       .send({
         name: 'Roupas',
@@ -157,7 +157,7 @@ describe('Testando a rota de categorias', () => {
     categoria.update.mockResolvedValue([1]);
 
     const response = await request(app)
-      .put('/v1/categorias/20')
+      .put('/v1/category/20')
       .set('Authorization', token)
       .send({
         name: 'Roupas',
@@ -172,7 +172,7 @@ describe('Testando a rota de categorias', () => {
   // Teste do método DELETE
   test('Deletando categoria com token inválido', async () => {
     const response = await request(app)
-      .delete('/v1/categorias/20')
+      .delete('/v1/category/20')
       .set('Authorization', 'tokenInvalido');
 
     expect(response.status).toBe(401);
@@ -187,7 +187,7 @@ describe('Testando a rota de categorias', () => {
     categoria.destroy.mockResolvedValue(1);
 
     const response = await request(app)
-      .delete('/v1/categorias/20')
+      .delete('/v1/category/20')
       .set('Authorization', token);
 
     expect(response.status).toBe(200);

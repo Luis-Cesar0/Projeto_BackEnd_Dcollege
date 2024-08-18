@@ -4,6 +4,7 @@ const app = express()
 const usuarioRoutes = require('./routes/usuario')
 const categoriaRoutes = require('./routes/categoria')
 const loginRoutes = require('./routes/login.js')
+const produtosRoutes = require('./routes/produtos.js')
 const cors = require('cors')
 
 app.use(cors())
@@ -20,6 +21,7 @@ app.get('/',(req,res) => {
 app.use('/v1/usuarios', usuarioRoutes);
 app.use(categoriaRoutes);
 app.use('/v1/user',loginRoutes)
+app.use('/v1/produtos')
 
 // exportatnado a aplicação Express
 module.exports = app;
