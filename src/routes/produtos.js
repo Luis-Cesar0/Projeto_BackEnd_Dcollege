@@ -1,11 +1,13 @@
 
-const { controllerGetProdutosID, controllerPostProduct, controllerPutProduct, controllerDelete, controllerDeleteProduct }= require('../controllers/controllerProdutos');
+const { controllerGetProdutos,controllerGetProdutosID, controllerPostProduct, controllerPutProduct, controllerDeleteProduct }= require('../controllers/controllerProdutos');
+const authorization = require('../middleware/authentication')
 const express = require('express');
 const routerProduct = express.Router()
 
+routerProduct.get('/', controllerGetProdutos)
 routerProduct.get('/:id', controllerGetProdutosID)
-routerProduct.post('/', controllerPostProduct)
-routerProduct.put('./:id', controllerPutProduct)
-routerProduct.delete('./:id', controllerDeleteProduct)
+routerProduct.post('/', authorization,controllerPostProduct)
+routerProduct.put('/:id', authorization,controllerPutProduct)
+routerProduct.delete('/:id', authorization,controllerDeleteProduct)
 
 module.exports = routerProduct

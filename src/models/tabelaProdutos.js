@@ -1,63 +1,55 @@
-const sequelize =require('../config/conexao')
-const { DataTypes } = require('sequelize')
-// Definindo o modelo Usuario
-const produtos = sequelize.define('produtos', {
+const sequelize = require('../config/conexao'); // Certifique-se de que o caminho esteja correto
+const { DataTypes } = require('sequelize');
+
+const Produtos = sequelize.define('produtos', {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
     enabled: {
-      type: DataTypes.TINYINT,
-      defaultValue: 0,
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: false
     },
     slug: {
-      type: DataTypes.STRING,
-      allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: false
     },
     use_in_menu: {
-      type: DataTypes.TINYINT,
-      defaultValue: 0,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
-    stock:{
+    stock: {
         type: DataTypes.INTEGER,
-        defaultValue: 0
+        allowNull: false
     },
     description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
+        allowNull: false
     },
     price: {
         type: DataTypes.FLOAT,
         allowNull: false
     },
-    price_with_discount:{
+    price_with_discount: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
     },
-    createdAt:{
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW
     },
-    updatedAt:{
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-      onUpdate: DataTypes.NOW
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+        onUpdate: DataTypes.NOW
     }
-  });
-  
-  // Sincronizando o modelo com o banco de dados
-  sequelize.sync()
-    .then(() => {
-      console.log('Tabelas produtos sincronizadas.');
-    })
-    .catch(err => {
-      console.error('Erro ao sincronizar tabelas:', err);
-    });
+});
 
-    module.exports= produtos
+module.exports = Produtos;
