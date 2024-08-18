@@ -16,9 +16,10 @@ app.get('/',(req,res) => {
 });
 })
 
-app.use('/usuarios', usuarioRoutes);
-app.use('/categorias', categoriaRoutes);
-app.use('/user',loginRoutes)
+
+app.use('/v1/usuarios', usuarioRoutes);
+app.use(categoriaRoutes);
+app.use('/v1/user',loginRoutes)
 
 // exportatnado a aplicação Express
 module.exports = app;
