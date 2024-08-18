@@ -4,7 +4,7 @@ const request = require('supertest');
 let server
 
 beforeAll(async () =>{
-    server = await app.listen(4000)
+    server = await app.listen(8000)
 })
 afterAll(async () =>{
     server.close()

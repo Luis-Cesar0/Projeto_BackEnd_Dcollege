@@ -4,15 +4,15 @@ const {getCategorias, getCategoriaId, postCategoria, putCategoria, deleteCategor
 const authorization = require('../middleware/authentication')
 const categoriaRoutes = express.Router()
 
-categoriaRoutes.get('/v1/category/search', getCategorias)
+categoriaRoutes.get('/v1/categorias/search', getCategorias)
 
-categoriaRoutes.get('/v1/category/:id', getCategoriaId)
+categoriaRoutes.get('/v1/categorias/:id', getCategoriaId)
 
-categoriaRoutes.post('/v1/category',authorization, postCategoria)
+categoriaRoutes.post('/v1/categorias',authorization, postCategoria)
 
-categoriaRoutes.put('/v1/category/:id',authorization, putCategoria)
+categoriaRoutes.put('/v1/categorias/:id',authorization, putCategoria)
 
-categoriaRoutes.delete('/v1/category/:id',authorization, deleteCategoria)
+categoriaRoutes.delete('/v1/categorias/:id',authorization, deleteCategoria)
 
 module.exports= categoriaRoutes
 

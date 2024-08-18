@@ -58,11 +58,11 @@ npm run dev
 
 #### Categorias
 
-- **GET /v1/category/search**: Lista todas as categorias de produtos.
-- **GET /v1/category/:id**: Retorna detalhes de uma categoria específica.
-- **POST /v1/category**: Cria uma nova categoria.
-- **PUT /v1/category/:id**: Atualiza uma categoria existente.
-- **DELETE /v1/category/:id**: Remove uma categoria.
+- **GET /v1/categorias/search**: Lista todas as categorias de produtos.
+- **GET /v1/categorias/:id**: Retorna detalhes de uma categoria específica.
+- **POST /v1/categorias**: Cria uma nova categoria.
+- **PUT /v1/categorias/:id**: Atualiza uma categoria existente.
+- **DELETE /v1/categorias/:id**: Remove uma categoria.
 
 #### Produtos
 

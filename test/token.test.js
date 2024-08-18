@@ -12,7 +12,7 @@ describe('testes de usuarios',()=>{
     jest.mock('../src/models/tabelaUsuarios')
 
     beforeAll(async () =>{
-        server = await app.listen(3000)
+        server = await app.listen(8000)
 
         const response = await request(app)
         .post('/v1/user/token')
