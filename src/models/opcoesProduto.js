@@ -1,16 +1,21 @@
-const sequelize =require('../config/conexao')
-const { DataTypes } = require('sequelize')
-const produtos = require('./tabelaProdutos')
+const sequelize = require('../config/conexao');
+const { DataTypes } = require('sequelize');
+const Produtos = require('./tabelaProdutos'); // Caminho correto
 
-const opcoesProduto = sequelize.define('opcoesProduto', {
+const OpcoesProduto = sequelize.define('opcoesProduto', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    product_id: {
+    produtos_id: { // Nome da coluna no banco de dados
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: Produtos,
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
     },
     title: {
         type: DataTypes.STRING,
@@ -43,18 +48,13 @@ const opcoesProduto = sequelize.define('opcoesProduto', {
         defaultValue: DataTypes.NOW,
         onUpdate: DataTypes.NOW
     }
+}, {
+    tableName: 'opcoesProduto' // Aqui você força o Sequelize a usar o nome correto da tabela
 });
 
-opcoesProduto.belongsTo(produtos);
-produtos.hasMany(opcoesProduto);
 
-sequelize.sync()
-    .then(() => {
-        console.log('Tabelas opcoesProduto sincronizadas.');
-    })
-    .catch(err => {
-        console.error('Erro ao sincronizar tabelas:', err);
-    });
+OpcoesProduto.belongsTo(Produtos, { as: 'produto', foreignKey: 'produtos_id' });
+Produtos.hasMany(OpcoesProduto, { as: 'opcoesProduto', foreignKey: 'produtos_id' });
 
 
-module.exports=  opcoesProduto
+module.exports = OpcoesProduto;
