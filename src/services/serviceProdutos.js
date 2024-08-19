@@ -8,7 +8,9 @@ const opcoesProduto = require('../models/opcoesProduto');
 const getProduct = async (req, res) => {
     try {
         const { limit = 12, page = 1, fields, match, category_ids, price_range, option = {} } = req.query;
-
+        if(isNaN(Number(limit))){
+           return respostas.badRequest(res,'limit aceita apensa numeros')
+        }
         let queryOptions = {
             include: [
                 {
@@ -179,7 +181,7 @@ const postProduct = async (req, res) => {
     // Verifica campos obrigatórios
     const camposFaltando = Object.keys(obrigatorios).filter(key => !obrigatorios[key]);
     if (camposFaltando.length > 0) {
-        return respostas.badRequest(res, `Há campos obrigatórios não preenchidos! Campos faltando: ${camposFaltando.join(', ')}`);
+        return respostas.badRequest(res, 'Há campos obrigatórios não preenchidos!');
     }
 
     try {

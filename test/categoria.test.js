@@ -15,7 +15,7 @@ describe('Testando a rota de categorias', () => {
   jest.mock('../src/models/tabelaCategoria');
 
   beforeAll(async () => {
-    server = app.listen(8000);
+    server = app.listen(9001);
     const response = await request(app)
     .post('/v1/user/token')
     .send({
