@@ -1,7 +1,8 @@
-const sequelize =require('../config/conexao')
-const { DataTypes } = require('sequelize')
+const sequelize = require('../config/conexao'); // Certifique-se de que o caminho esteja correto
+const { DataTypes } = require('sequelize');
+const Produtos = require('./tabelaProdutos'); // Certifique-se de que o caminho esteja correto
 
-const imagensProduto = sequelize.define('imagensProduto', {
+const ImagensProduto = sequelize.define('imagensProdutos', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -11,9 +12,10 @@ const imagensProduto = sequelize.define('imagensProduto', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'products',
+            model: Produtos,
             key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
     },
     enabled: {
         type: DataTypes.BOOLEAN,
@@ -34,8 +36,11 @@ const imagensProduto = sequelize.define('imagensProduto', {
         defaultValue: DataTypes.NOW,
         onUpdate: DataTypes.NOW
     }
-
 });
+
+ImagensProduto.belongsTo(Produtos, { as: 'produto', foreignKey: 'product_id' });
+Produtos.hasMany(ImagensProduto, { as: 'imagensProdutos', foreignKey: 'product_id' });
+
 
 sequelize.sync()
     .then(() => {
@@ -45,4 +50,4 @@ sequelize.sync()
         console.error('Erro ao sincronizar tabelas:', err);
     });
 
-module.exports= imagensProduto
+module.exports = ImagensProduto;

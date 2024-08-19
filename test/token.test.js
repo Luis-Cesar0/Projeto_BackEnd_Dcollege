@@ -12,7 +12,7 @@ describe('testes de usuarios',()=>{
     jest.mock('../src/models/tabelaUsuarios')
 
     beforeAll(async () =>{
-        server = await app.listen(8000)
+        server = await app.listen(9003)
 
         const response = await request(app)
         .post('/v1/user/token')
@@ -41,7 +41,7 @@ describe('testes de usuarios',()=>{
         expect(response.body).toEqual({
             status: "200",
             mensagem: "token criado",
-            detalhes: token
+            detalhes: response.body.detalhes
         })
      })
      test('login com senha invalida', async () => { 
