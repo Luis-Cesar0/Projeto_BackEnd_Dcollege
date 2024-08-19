@@ -3,6 +3,9 @@
 
 Este repositório contém o backend do projeto Geração Tech, desenvolvido como parte de um trabalho acadêmico para o curso de Desenvolvimento Full Stack.
 
+## Documentação do Postman
+- **Postman**: https://documenter.getpostman.com/view/25752316/2sA3s9D8on
+
 ## Tecnologias Utilizadas
 
 - **Node.js**: Plataforma de desenvolvimento.
