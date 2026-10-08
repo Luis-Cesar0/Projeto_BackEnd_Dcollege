@@ -1,46 +1,37 @@
-require('dotenv').config()
-const jwt = require('jsonwebtoken')
-const respostas = require('../responses.js')
-const tabelaUsuario = require('../models/tabelaUsuarios.js')
+const jwt = require('jsonwebtoken');
+const respostas = require('../responses');
+const tabelaUsuario = require('../models/tabelaUsuarios');
 const bcrypt = require('bcrypt');
 
+const INVALID_CREDENTIALS = 'E-mail ou senha inválidos.';
 
-
-const login = async(req, res) => {
-    try {
+const login = async (req, res) => {
+  try {
     const { email, password } = req.body;
-    
-    
-    const usuario = await tabelaUsuario.findOne({ where: { email: email },  attributes: ['id', 'firstname', 'surname', 'email', 'password'] })
-    
-    
-	//caso não exista ocorrência relacionada ao email
-    if (!usuario) {
-        return respostas.unauthorized(res,'email inválido')
-    }
-    
-    //caso o email esteja correto verificar a password
-    //bycrypt.compare retorna se a senha esta correta
-    const passwordCorreta = await bcrypt.compare(password, usuario.dataValues.password)
-    
-    // caso passwordCorreta seja false
-    if (!passwordCorreta) {
-        return respostas.unauthorized(res,'senha inválido')
+    const usuario = await tabelaUsuario.findOne({
+      where: { email },
+      attributes: ['id', 'email', 'password'],
+    });
+
+    const passwordCorreta = usuario
+      ? await bcrypt.compare(password, usuario.password)
+      : false;
+    if (!passwordCorreta) return respostas.unauthorized(res, INVALID_CREDENTIALS);
+
+    const secret = process.env.JWT_SECRET || process.env.KEY_TOKEN;
+    if (!secret || Buffer.byteLength(secret, 'utf8') < 32) {
+      return respostas.InternalServerError(res, 'Autenticação não configurada.');
     }
 
-    //caso password esteja correta, gerar o token
-    //jwt.sign( Payload, chaveSecreta, opcoes)
-    
     const token = jwt.sign(
-		    { id: usuario.dataValues.id, email: usuario.dataValues.email },
-		    process.env.KEY_TOKEN,
-		    { expiresIn: '1h' }
-    )
-    respostas.success(res,'token criado',token)
-        
-    } catch (error) {
-        
-        respostas.InternalServerError(res,'erro ao fazer login')
-    }
-}
-module.exports = login
+      { userId: usuario.id, email: usuario.email },
+      secret,
+      { algorithm: 'HS256', expiresIn: '1h' },
+    );
+    return respostas.success(res, 'token criado', token);
+  } catch {
+    return respostas.InternalServerError(res, 'Não foi possível concluir o login.');
+  }
+};
+
+module.exports = login;

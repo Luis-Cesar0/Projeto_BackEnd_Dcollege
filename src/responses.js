@@ -15,7 +15,7 @@ const respostas = {
     });
   },
   noContent: (res) => {
-    res.status(204).json({ status: '204' });
+    res.status(204).end();
   },
   badRequest: (res, mensagem) => {
     res.status(400).json({
@@ -34,6 +34,9 @@ const respostas = {
       status: '404',
       mensagem: mensagem,
     });
+  },
+  conflict: (res, mensagem) => {
+    res.status(409).json({ status: '409', mensagem });
   },
   InternalServerError: (res, mensagem) => {
     res.status(500).json({

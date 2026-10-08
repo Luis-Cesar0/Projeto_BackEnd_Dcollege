@@ -1,27 +1,44 @@
 {
   "name": "projeto_backend_dcollege",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API REST acadêmica de e-commerce criada durante a formação Geração Tech / Digital College, revisada com foco em segurança, validação e testes.",
+  "main": "src/app.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "test": "jest --passWithNoTests"
+    "dev": "node --watch src/server.js",
+    "test": "jest --config config.jest.js --runInBand",
+    "start": "node src/server.js",
+    "lint": "eslint src test --max-warnings=0",
+    "check": "npm run lint && npm test"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luis César e contribuidores do projeto",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "jest": "^29.7.0",
-    "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.11.0",
-    "sequelize": "^6.37.3",
-    "supertest": "^7.0.0"
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.3",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.24.5",
+    "sequelize": "^6.37.8",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "jest": "^30.5.2",
+    "supertest": "^7.3.1"
+  },
+  "overrides": {
+    "sequelize": {
+      "uuid": "^11.1.1"
+    },
+    "@istanbuljs/load-nyc-config": {
+      "js-yaml": "^4.1.1"
+    }
+  },
+  "engines": {
+    "node": ">=20.13.0"
   }
 }

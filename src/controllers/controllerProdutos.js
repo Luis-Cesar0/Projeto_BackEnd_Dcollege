@@ -1,4 +1,3 @@
-const express = require('express');
 const { getProductID, postProduct, putProduct, deleteProdutos,getProduct } = require('../services/serviceProdutos')
 
 const controllerGetProdutos = (req,res)=>{

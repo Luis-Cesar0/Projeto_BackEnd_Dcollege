@@ -22,7 +22,7 @@ const ImagensProduto = sequelize.define('imagensProdutos', {
         defaultValue: false
     },
     path: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     createdAt: {
@@ -41,13 +41,5 @@ const ImagensProduto = sequelize.define('imagensProdutos', {
 ImagensProduto.belongsTo(Produtos, { as: 'produto', foreignKey: 'product_id' });
 Produtos.hasMany(ImagensProduto, { as: 'imagensProdutos', foreignKey: 'product_id' });
 
-
-sequelize.sync()
-    .then(() => {
-        console.log('Tabelas imagensProduto sincronizadas.');
-    })
-    .catch(err => {
-        console.error('Erro ao sincronizar tabelas:', err);
-    });
 
 module.exports = ImagensProduto;

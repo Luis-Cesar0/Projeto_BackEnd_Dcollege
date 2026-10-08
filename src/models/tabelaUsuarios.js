@@ -19,6 +19,7 @@ const usuario = sequelize.define('usuarios', {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -37,13 +38,4 @@ const usuario = sequelize.define('usuarios', {
     }
   });
   
-  // Sincronizando o modelo com o banco de dados
-  sequelize.sync()
-    .then(() => {
-      console.log('Tabelas usuario  sincronizadas.');
-    })
-    .catch(err => {
-      console.error('Erro ao sincronizar tabelas:', err);
-    });
-
 module.exports = usuario

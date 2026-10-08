@@ -2,20 +2,26 @@ const jwt = require('jsonwebtoken');
 const respostas = require('../responses')
 
 function validaToken(req, res, next) {
-// resgatar o token da requisição
-const retornaToken = req.header('Authorization');
+  const authorization = req.get('Authorization');
+  const match = authorization && authorization.match(/^Bearer\s+(.+)$/i);
 
-// se não tiver token, retornar erro
-if (!retornaToken)  return respostas.unauthorized(res, 'acesso negado');
-// se tiver token, verificar se é valido
-try {
-    const tokenDecodado = jwt.verify(retornaToken, process.env.KEY_TOKEN);
-    req.userId = tokenDecodado.userId;
-    
-    next();
- } catch (error) {
-    return respostas.unauthorized(res, 'Token invalido')
- }
- };
+  if (!match) return respostas.unauthorized(res, 'Token ausente ou inválido');
+
+  const secret = process.env.JWT_SECRET || process.env.KEY_TOKEN;
+  if (!secret || Buffer.byteLength(secret, 'utf8') < 32) {
+    return respostas.InternalServerError(res, 'Autenticação não configurada.');
+  }
+
+  try {
+    const decoded = jwt.verify(match[1], secret, { algorithms: ['HS256'] });
+    if (!decoded || typeof decoded === 'string' || !decoded.userId) {
+      return respostas.unauthorized(res, 'Token inválido');
+    }
+    req.userId = decoded.userId;
+    return next();
+  } catch {
+    return respostas.unauthorized(res, 'Token ausente ou inválido');
+  }
+}
 
 module.exports = validaToken;

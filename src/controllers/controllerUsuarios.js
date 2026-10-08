@@ -1,4 +1,4 @@
-const {getUserId,postUser,putUser,deleteUser} = require('../services/serviceUsario')
+const {getUserId,postUser,putUser,deleteUser} = require('../services/serviceUsuario')
 
 
 

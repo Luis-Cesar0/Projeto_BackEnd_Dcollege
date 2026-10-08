@@ -39,6 +39,10 @@ const Produtos = sequelize.define('produtos', {
         type: DataTypes.FLOAT,
         allowNull: true
     },
+    category_ids: {
+        type: DataTypes.JSON,
+        allowNull: true
+    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
